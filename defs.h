@@ -17,11 +17,10 @@
 #ifndef defs_h
 #define defs_h
 
-
-
 /* Definetions*/
 #define MAX_STR   32
 #define MAX_BUFF  256
+
 
 /* SongType  */
 typedef struct  { 
@@ -32,22 +31,17 @@ typedef struct  {
   char eInfo[1024]; // Extra info about the song
 } SongType;
 
-
-// CLEARLY I NEED TO REVIEW LINKED LISTS LOL
-// THATS OK I WILL USE THIS TIME TO WORK ON THE CLIENT END SINCE IT IS THE MOST IMPORTANT THING FOR THIS TIME, AND I CAN IMPLEMENT THE NEEDED CODE IN THE SERVER LATER ON.
-
-
+/* Node */
+typedef struct node {
+  SongType data;
+  struct Node *next;
+} node;
 
 /* ListType */
 typedef struct  {
-  SongType *song;
-  SongType *head;
-  SongType *tail;
+  struct Node *Node;
 } ListType;
 
-/* Node */
-typedef struct node {
 
-} node;
 
 #endif // Include guard
