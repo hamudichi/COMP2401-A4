@@ -72,26 +72,8 @@
 //                   ▀▀▀▀▀▀                                                   //
 //////////////////////////////////////////////////////////////////////////////// 
 
-/* Essential Headers*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
-/* Check man pages for inet and close */
-#include <unistd.h>    // Added for close() "implicit declaration"
-#include <arpa/inet.h> // Added for inet_addr "implicit declaration"
-
-
-/* local header files*/
-#include "client.h"
-#include "defs.h"
-#include "colors.h"
-
-/* For macro ... va_list ..etc*/
-#include <stdarg.h>
+/* All headers used by this program can be found here */
+#include "headers.h"
 
 /*-----------------------------------------------------------------------------*/
 /* Defintions */

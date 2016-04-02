@@ -1,22 +1,7 @@
 // Server Functions
 
-/* Essential Headers */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <time.h>
-
-/* Check man pages for inet and close */
-#include <unistd.h>    // Added for close() "implicit declaration"
-#include <arpa/inet.h> // Added for inet_addr "implicit declaration"
-
-/* Local header files */
-#include "colors.h"
-#include "defs.h"
-#include "server.h"
+/* All headers used by this program can be found here*/
+#include "headers.h"
 
 
 

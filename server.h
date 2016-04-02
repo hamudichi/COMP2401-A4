@@ -19,6 +19,7 @@
 void initServerSocket();      // Intializes socket connection
 void waitForConnection();
 void recvText(char*);        
+void closeMySocket(int);
 
 /* Interface Functions */
 /* DEPRECATED */ 
