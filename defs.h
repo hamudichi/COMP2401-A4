@@ -35,7 +35,7 @@ typedef struct  {
 typedef struct node {
   SongType data;
   struct Node *next;
-} node;
+} Node;
 
 /* ListType */
 typedef struct  {

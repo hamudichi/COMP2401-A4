@@ -72,6 +72,7 @@
 //                   ▀▀▀▀▀▀                                                   //
 //////////////////////////////////////////////////////////////////////////////// 
 
+/* Essential Headers*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -83,18 +84,21 @@
 #include <unistd.h>    // Added for close() "implicit declaration"
 #include <arpa/inet.h> // Added for inet_addr "implicit declaration"
 
+
+/* local header files*/
+#include "client.h"
+#include "defs.h"
+#include "colors.h"
+
 /* For macro ... va_list ..etc*/
 #include <stdarg.h>
 
+/*-----------------------------------------------------------------------------*/
 /* Defintions */
-
 #define SERVER_IP "127.0.0.1"
 #define SERVER_IP_n "99.246.96.212"
 #define SERVER_PORT 60003
 
-/* Unofficial header files*/
-#include "client.h"
-#include "defs.h"
 
 /* FOR LATER RELEASES 
   const unsigned SERVER_IP = {"127.0.0.1"};
