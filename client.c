@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//                                  come at me                                //      
+//                                  come at me                                // 
 //                     ▄▄▄  ▄      ▄▄▄▄▄  ▄▄▄▄▄▄ ▄▄   ▄▄▄▄▄▄▄▄                //
-//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   //
+//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   // 
 //                   █      █        █    █▄▄▄▄▄ █ █▄ █   █                   //
 //                   █      █        █    █      █  █ █   █                   //
 //                    ▀▄▄▄▀ █▄▄▄▄▄ ▄▄█▄▄  █▄▄▄▄▄ █   ██   █                   //
@@ -112,6 +112,9 @@ int main(int argc, char **argv)
   char buffer[MAX_BUFF];
   const char s[3] = "/me";
   char *token;
+
+  /* Reset any previous ANSI COLORING done by the bash */
+  printf(ANSI_COLOR_RESET);
 
   /* If there are any arguments, check what they are */
   if (argc > 1) {    

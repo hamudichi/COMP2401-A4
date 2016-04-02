@@ -3,10 +3,10 @@ EXECS= server client
 all:	$(EXECS)
 
 server:	server.c defs.h client.h
-	gcc $(DEBUG) -o server server.c
+	gcc -o server server.c
 
 client:	client.c defs.h client.h
-	gcc $(DEBUG) -o client client.c
+	gcc -o client client.c
 
 clean:
 	rm -f $(EXECS)

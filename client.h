@@ -1,3 +1,14 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//            ▄▄▄  ▄      ▄▄▄▄▄  ▄▄▄▄▄▄ ▄▄   ▄▄▄▄▄▄▄▄        ▄    ▄           //
+//          ▄▀   ▀ █        █    █      █▀▄  █   █           █    █           //
+//          █      █        █    █▄▄▄▄▄ █ █▄ █   █           █▄▄▄▄█           //
+//          █      █        █    █      █  █ █   █     ▀▀▀   █    █           //
+//           ▀▄▄▄▀ █▄▄▄▄▄ ▄▄█▄▄  █▄▄▄▄▄ █   ██   █           █    █           //
+//                                                                            //
+// Contains: ANSI COLORING and styles, client error, ncurses prototypes       //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 /* Include Gaurds - used for making sure the file is only read once or included once */
 #ifndef client_h
 #define client_h
