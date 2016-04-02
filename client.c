@@ -6,7 +6,8 @@
   *          - have the option to change the server (i.e change port or ip)
   *          - also be aware if this client at a given time is queued or has a direct
   *            connection with the server
-  *          - get ID from user, and send it to the server (i.e username...Bob or Moe..etc)
+  *          - get ID from user, and send it to the server (
+		i.e username...Bob or Moe..etc)
   *          - to be determined later you dummyyy **REMOVE**
   */
 
@@ -17,15 +18,27 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+/* Check man pages for inet and close */
+#include <unistd.h>    // Added for close() "implicit declaration"
+#include <arpa/inet.h> // Added for inet_addr "implicit declaration"
+
+/* For macro ... va_list ..etc*/
 #include <stdarg.h>
 
 /* Defintions */
+
 #define SERVER_IP "127.0.0.1"
-#define SERVER_PORT 6003
+#define SERVER_IP_n "99.246.96.212"
+#define SERVER_PORT 60003
 
 /* Unofficial header files*/
 #include "client.h"
 #include "defs.h"
+
+/* FOR LATER RELEASES 
+  const unsigned SERVER_IP = {"127.0.0.1"};
+*/
 
 int  mySocket;
 void initClientSocket();
@@ -37,7 +50,8 @@ int main(int argc, char **argv)
   char str[MAX_STR];
   char userID[MAX_USER_NAME];
   char buffer[MAX_BUFF];
-
+  const char s[3] = "/me";
+  char *token;
   /* If there are any arguments, check what they are */
   if (argc > 1) {
     
@@ -60,7 +74,7 @@ int main(int argc, char **argv)
        return 0;
   
     } else if(sizeof(argv[1]) >  0) {
-       printf("Woops, it seems you wanted the launch client with this argument.\n"
+       printf("Woops, it seems you the argument you tried to run the client in is \n"
               ANSI_COLOR_RED" '%s'" ANSI_COLOR_RESET" , except I am stupid and no linglish... :( . " 
               ANSI_COLOR_GREEN ANSI_BOLD "\nTry --help" ANSI_COLOR_RESET "\n", argv[1]);
        return 0;
@@ -101,6 +115,9 @@ int main(int argc, char **argv)
 
     strcpy(buffer, str);
     send(mySocket, buffer, strlen(buffer), 0);
+    
+    token = strtok (str, s);
+    printf("%s", token);
 
     if (strcmp(str, "/h") == 0) {
       printf(ANSI_COLOR_CYAN
@@ -110,6 +127,11 @@ int main(int argc, char **argv)
              "Commands include :\n" ANSI_COLOR_RED "\t/h\t: For this"
              " lovely page\n\t/q\t: Closes this program.\n"
              ANSI_COLOR_RESET );
+    } else if (strcmp(token, "/me") == 0) {
+ 
+//      fgets(str, sizeof(str), stdin);
+      printf("%s %s", userID, str);
+    
     } else if (strcmp(str, "/q") == 0) {
       break;
     }
