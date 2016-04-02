@@ -1,16 +1,76 @@
- /*
-  * Features:
-  *          - upload/download songs to the server
-  *          - get list of songs
-  *          - implements ncurser's window library
-  *          - have the option to change the server (i.e change port or ip)
-  *          - also be aware if this client at a given time is queued or has a direct
-  *            connection with the server
-  *          - get ID from user, and send it to the server (
-		i.e username...Bob or Moe..etc)
-  *          - to be determined later you dummyyy **REMOVE**
-  */
-
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                  come at me                                //      
+//                     ▄▄▄  ▄      ▄▄▄▄▄  ▄▄▄▄▄▄ ▄▄   ▄▄▄▄▄▄▄▄                //
+//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   //
+//                   █      █        █    █▄▄▄▄▄ █ █▄ █   █                   //
+//                   █      █        █    █      █  █ █   █                   //
+//                    ▀▄▄▄▀ █▄▄▄▄▄ ▄▄█▄▄  █▄▄▄▄▄ █   ██   █                   //
+//                                                                            //
+//                                                                            //
+//    Author: Mohamad Yassine, 2016                                           //
+//                                                                            //
+//    Purpose: To connect over TCP and store song information in a data       //
+//             structure found in defs.h, in addition provide the client      //
+//             with the songs that have been stored in the server.            //
+//                                                                            //
+//    Client:  This is the client end, which is much more fancier than the    //
+//             server end. You are welcome.                                   //
+//                                                                            //
+//    Things to improve:                                                      //
+//             - Read an MP3 file and read it's headers for song info         //
+//               and then convert the file into binary and send it over.      //
+//             - Usage of a GUI library, such as GTK or QT                    //
+//             - Play sounds (that is haha)                                   //
+//             - Dynamically change the server, without closing the client    //
+//             - TO BE DETERMINED                                             //
+//                                                                            //
+//    Implemented Features:                                                   //
+//             - Storing a song in provided data structures in defs.h         //
+//             - Requesting Song list from the server                         //
+//             - Encryption of packets sent over TCP                          //
+//             - /me ate an apple                                             //
+//             - Command line options (check --help)                          //
+//             - Ncurses library, for eye-candy                               //
+//        TBD  - ALSA library                                                 //
+//             - Use of UNIX 80 character limit, as provided by IBM Punchcard //
+//                 I googled it... !                                          //
+//             - TO ADD LATER MORE BEFORE HANDING IN NOTICE ME SEMPAI!!       //
+//                                                                            //
+//    Compilation:                                                            //
+//             $ gcc client.c -o client -lncurses -lmenu                      //
+//                                                                            //
+//    Execution:                                                              //
+//             $ ./client                                                     //
+//                                                                            //
+//    LICENSE: This program is licensed under GNU Public License, refer to    //
+//             the LICENSE file provided in the main directory.               //
+//                                                                            //
+//----------------------------just-a-little-meme------------------------------//
+//                                                                            //
+//  █▀                        ▀▄                                              //
+// ▄▀                          ▀▄                                             //
+// █     ███           ███      █                                             //
+// █     ▀▀▀           ▀▀▀      █                                             //
+//  █                          █                                              //
+//   ▀                        ▀                                               //
+//            ▀▀▀▀▀▀                                                          //
+//                                                                            //
+//  █▀                               ▀▄                                       //
+// ▄▀                                 ▀▄   ▄            ███████       ███████ //
+// █            ███           ███      █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ //
+// █            ▀▀▀           ▀▀▀      █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ //
+//  █                                 █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ //
+//   ▀                               ▀                                        //
+//                   ▀▀▀▀▀▀                                                   //
+//  █▀                               ▀▄                                       //
+// ▄▀         ███████       ███████   ▀▄                                      //
+// █    ▄▄▄▄▄▄███████       ███████    █  deal with it                        //
+// █    ▀     ███████       ███████    █                                      //
+//  █         ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀   █                                       //
+//   ▀                               ▀                                        //
+//                   ▀▀▀▀▀▀                                                   //
+//////////////////////////////////////////////////////////////////////////////// 
 
 #include <stdio.h>
 #include <stdlib.h>
