@@ -166,7 +166,9 @@ int main(int argc, char **argv)
 
     recvText(userID);
 
-    printf(ANSI_ITALIC "User %s has joined the server.\n" ANSI_COLOR_RESET);
+    printf(ANSI_ITALIC 
+          "User %s has joined the server.\n" 
+           ANSI_COLOR_RESET, userID);
 
     /* read messages from client and do something with it  */
 
