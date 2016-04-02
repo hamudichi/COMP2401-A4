@@ -1,8 +1,71 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                  come at me                                //      
+//                  ▄▄▄▄  ▄▄▄▄▄▄ ▄▄▄▄▄  ▄    ▄ ▄▄▄▄▄▄ ▄▄▄▄▄                   //
+//                 █▀   ▀ █      █   ▀█ ▀▄  ▄▀ █      █   ▀█                  //
+//                 ▀█▄▄▄  █▄▄▄▄▄ █▄▄▄▄▀  █  █  █▄▄▄▄▄ █▄▄▄▄▀                  //
+//                     ▀█ █      █   ▀▄  ▀▄▄▀  █      █   ▀▄                  //
+//                 ▀▄▄▄█▀ █▄▄▄▄▄ █    ▀   ██   █▄▄▄▄▄ █    █                  //
+//                                                                            //
+//                                                                            //
+//    Author: Mohamad Yassine, 2016                                           //
+//                                                                            //
+//    Purpose: To connect over TCP and store song information in a data       //
+//             structure found in defs.h, in addition provide the client      //
+//             with the songs that have been stored in the server.            //
+//                                                                            //
+//    Things to improve:                                                      //
+//             - Store songs in a file and read when if a server failue       //
+//               occurs. Also provides the ability of shutting down the       //
+//               the server, which is pretty useful.                          //
+//             - A better encryption method.                                  //
+//             - Multiplex connections, to provide simontanous connections    //
+//             - Provide a GUI or Ncurses page for easier use & navigation    //
+//             - Implement the UDP protocol to transmit file and to not rely  //
+//                                                                            //
+//    Implemented Features:                                                   //
+//             - Singly Linked List                                           //
+//             - Command line options (check --help)                          //
+//             - Organized Logging of client activity                         //
+//             - Use of UNIX 80 character limit, as provided by IBM Punchcard //
+//                 I googled it... !                                          //
+//             - TO ADD LATER MORE BEFORE HANDING IN NOTICE ME SEMPAI!!       //
+//                                                                            //
+//    Compilation:                                                            //
+//             $ gcc server.c -o server                                       //
+//                                                                            //
+//    Execution:                                                              //
+//             $ ./server                                                     //
+//                                                                            //
+//    LICENSE: This program is licensed under GNU Public License, refer to    //
+//             the LICENSE file provided in the main folder.                  //
+//                                                                            //
+//----------------------------just-a-little-meme------------------------------//
+//                                                                            //
+//  █▀                        ▀▄                                              //
+// ▄▀                          ▀▄                                             //
+// █     ███           ███      █                                             //
+// █     ▀▀▀           ▀▀▀      █                                             //
+//  █                          █                                              //
+//   ▀                        ▀                                               //
+//            ▀▀▀▀▀▀                                                          //
+//                                                                            //
+//  █▀                               ▀▄                                       //
+// ▄▀                                 ▀▄   ▄            ███████       ███████ //
+// █            ███           ███      █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ //
+// █            ▀▀▀           ▀▀▀      █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ //
+//  █                                 █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ //
+//   ▀                               ▀                                        //
+//                   ▀▀▀▀▀▀                                                   //
+//  █▀                               ▀▄                                       //
+// ▄▀         ███████       ███████   ▀▄                                      //
+// █    ▄▄▄▄▄▄███████       ███████    █  deal with it                        //
+// █    ▀     ███████       ███████    █                                      //
+//  █         ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀   █                                       //
+//   ▀                               ▀                                        //
+//                   ▀▀▀▀▀▀                                                   //
+////////////////////////////////////////////////////////////////////////////////
 
- /*
-  * SERVER END
-  * 
-  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,8 +73,16 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <time.h>
 
-#define MY_PORT 6003
+/* Check man pages for inet and close */
+#include <unistd.h>    // Added for close() "implicit declaration"
+#include <arpa/inet.h> // Added for inet_addr "implicit declaration"
+
+/* Definitions */
+#define MY_PORT 60003
+
+/* TO BE PUT IN A SEPERATE HEADER */
 #define INIT_SUCCESS "\x1b[32m"
 #define INIT_FAIL    "\x1b[33m"
 #define INIT_DESC    "\x1b[31m"
@@ -30,6 +101,29 @@ void recvText(char*);
 int myListenSocket, clientSocket;
 void _help();
 
+void giveMeTime () {
+  /*
+   * Prints out time in Sun Aug 19 02:56:02 2012 
+   * Note, this is only useful to log things over the server, if in case the server
+   * is able to multiplex and receive simontantious connections from users.
+   * However, I thought it would look cool over at the server end
+   * Yes it would look cool and I am sure no one in the class is even doing anything
+   * close to how I am doing this assignment.
+   * In fact, I am treating this assignment as if it was worth 100% of my totoal mark
+   *
+   * You can find the tutorial for printing out time using time.h over here
+   * http://www.tutorialspoint.com/c_standard_library/c_function_strftime.htm */
+
+  time_t rtime;         // rawtime;
+  struct tm *info;
+  char buffer[80];
+
+  time (&rtime);
+  info = localtime(&rtime);
+  strftime(buffer, 80, "%c", info);
+  printf("%s",buffer);
+}
+
 int main(int argc, char **argv)
 {
   char buffer[MAX_BUFF];
@@ -43,6 +137,18 @@ int main(int argc, char **argv)
    *                which means its not secure, but gives the illusion of security :p
    *
    */
+  if (argc > 1) {
+     if(sizeof(argv[1]) > 0) {
+         if(strcmp(argv[1], "--help") == 0) {
+             printf("You have reached the help page\n");
+             return 0;
+         } else {
+             printf(ANSI_BOLD ANSI_COLOR_RED ANSI_ITALIC "%s" ANSI_COLOR_RESET
+                    " is not understood.\n", argv[1]);
+	     return 0;
+         }
+     }
+  }
 
   initServerSocket();
 
@@ -63,7 +169,9 @@ int main(int argc, char **argv)
       recvText(buffer);
       //printf(ANSI_COLOR_GREEN "lol :  %s\n" ANSI_COLOR_RESET, buffer);
       if(strcmp(buffer,"/q") == 0) {
-        printf(ANSI_COLOR_RED "User " ANSI_COLOR_RESET ANSI_GREY_BCK "%s" ANSI_COLOR_RESET ANSI_COLOR_RED" has disconnected...\n" ANSI_COLOR_RESET, userID);
+        printf(ANSI_COLOR_RED "User " ANSI_COLOR_RESET ANSI_GREY_BCK "%s" ANSI_COLOR_RESET ANSI_COLOR_RED" has disconnected..." 
+               ANSI_ITALIC , userID);
+	giveMeTime(); printf(ANSI_COLOR_RESET "\n");
         break;
       } else if(strcmp(buffer, "/h") == 0) {
         printf(ANSI_COLOR_BLUE "User " ANSI_COLOR_RESET ANSI_GREY_BCK "%s" ANSI_COLOR_RESET ANSI_COLOR_RED " has requested help page.\n" ANSI_COLOR_RESET, userID); 
@@ -71,7 +179,7 @@ int main(int argc, char **argv)
         /* The user has requested to send a song to the server */
 	printf(ANSI_COLOR_YELLOW ANSI_ITALIC "User '%s' is sending a song over.\n" ANSI_COLOR_RESET, userID);
       } else {
-        printf(ANSI_COLOR_CYAN "%s" ANSI_COLOR_RESET ":  %s\n", userID, buffer);
+        printf(ANSI_COLOR_GREY "User" ANSI_COLOR_CYAN ": %s" ANSI_COLOR_RESET ":  %s\n", userID, buffer);
       }
     }
 
@@ -96,7 +204,7 @@ void initServerSocket()
     printf("couldn't open socket\n");
     exit(-1);
   }
-
+                                                                                
 /* setup my server address */
   memset(&myAddr, 0, sizeof(myAddr));
   myAddr.sin_family = AF_INET;
