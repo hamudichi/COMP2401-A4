@@ -112,62 +112,80 @@ int main(int argc, char **argv)
   char buffer[MAX_BUFF];
   const char s[3] = "/me";
   char *token;
+
   /* If there are any arguments, check what they are */
-  if (argc > 1) {
-    
+  if (argc > 1) {    
     if (strcmp(argv[1], "--ncurses") == 0) {
-     printf(ANSI_ITALIC "You have chosen to use the ncurses interface.\n" 
+     printf(ANSI_ITALIC 
+            "You have chosen to use the ncurses interface.\n" 
             ANSI_COLOR_RESET );
+     /* TEMOPRARY  */
      ncurses(3,20,20,100);
      return 0;
 
     } else if(strcmp(argv[1], "--help") == 0) {
       /* Help Page */
-       printf(ANSI_UNDER ANSI_BOLD "MOEUSIC" ANSI_ITALIC " v0.1\n" ANSI_COLOR_RESET);
-       printf( "You have reached the external help page of the client.\n"
-               " Here are the possible arguments: "
-               ANSI_COLOR_GREEN "\n\t --help "    ANSI_COLOR_RESET
-               "\t: brings you to this lovely page"
-               ANSI_COLOR_GREEN "\n\t --ncurses " ANSI_COLOR_RESET
-               "\t: uses the ncurses interface.\n"
-               ANSI_COLOR_RESET );
+       printf(ANSI_UNDER ANSI_BOLD 
+              "MOEUSIC" 
+              ANSI_ITALIC 
+              " v0.1\n" 
+              ANSI_COLOR_RESET
+              "You have reached the external help page of the client.\n"
+              " Here are the possible arguments: "
+              ANSI_COLOR_GREEN 
+              "\n\t --help "
+              ANSI_COLOR_RESET
+              "\t: brings you to this lovely page"
+              ANSI_COLOR_GREEN 
+              "\n\t --ncurses "
+              ANSI_COLOR_RESET
+              "\t: uses the ncurses interface.\n"
+              ANSI_COLOR_RESET );
        return 0;
   
     } else if(sizeof(argv[1]) >  0) {
-       printf("Woops, it seems you the argument you tried to run the client in is \n"
-              ANSI_COLOR_RED" '%s'" ANSI_COLOR_RESET" , except I am stupid and no linglish... :( . " 
-              ANSI_COLOR_GREEN ANSI_BOLD "\nTry --help" ANSI_COLOR_RESET "\n", argv[1]);
+      /* checks if user entered the wrong argument i.e ./server ksdjfksj */
+       printf("Woops, it seems you the argument you tried to run the client in"
+              " is \n"
+              ANSI_COLOR_RED
+              " '%s'" 
+              ANSI_COLOR_RESET
+              " , except I am stupid and no linglish... :( . "
+              ANSI_COLOR_GREEN ANSI_BOLD 
+              "\nTry --help"
+              ANSI_COLOR_RESET
+              "\n", argv[1]);
        return 0;
    }
-
-  } else { 
+  } else { // if argc < 1  
        printf("You have not chosen any external parameters " 
               "to run the client under.\n");
   }
-
-  printf("Welcome, this is the client end of MOEUSIC.\n" ANSI_COLOR_CYAN
-         "Please enter your username [under 32 characters]: " ANSI_COLOR_RESET);
+  /* Welcome Screen */ 
+  printf("Welcome, this is the client end of MOEUSIC.\n"
+         ANSI_COLOR_CYAN
+         "Please enter your username [under 32 characters]: "
+         ANSI_COLOR_RESET);
 
   /* Gets username from user */
   fgets(userID, sizeof(userID), stdin);
 
   printf(ANSI_COLOR_GREEN
-         "Establising connection to server %s:%d \n"
-         ANSI_COLOR_RESET, SERVER_IP,SERVER_PORT);
+         "Establising connection to server %s:%d \n\nFor further assistance or "
+         "help, please visit the help page by simply typing "
+         ANSI_COLOR_GREEN 
+         "'/h'"
+         ANSI_COLOR_RESET" \n", ANSI_COLOR_RESET, SERVER_IP,SERVER_PORT);
 
-  printf("\nFor further assistance or help, please visit the help page by"" simply typing " 
-         ANSI_COLOR_GREEN "'/h'" ANSI_COLOR_RESET" \n");
-
-
-
+  /* Initiats connections */
   initClientSocket();
+
   /* SEND USER THAT WE GOT FROM THE ABOVE fgets */
   userID[strlen(userID)-1] = '\0'; // add a terminator at the end of the char[]
   strcpy(buffer, userID);
   send(mySocket, buffer, strlen(buffer), 0);
 
-
-/* get input from user and send to server */
+  /* get input from user and send to server */
   while (1) {
     printf("Please enter message: ");
     fgets(str, sizeof(str), stdin);
@@ -184,15 +202,18 @@ int main(int argc, char **argv)
              "Welcome to the help page. This is a beta-help page\n"
              "With later releases the help page should be using\n"
              "the ncurses library.\n"
-             "Commands include :\n" ANSI_COLOR_RED "\t/h\t: For this"
-             " lovely page\n\t/q\t: Closes this program.\n"
-             ANSI_COLOR_RESET );
+             "Commands include :\n"
+             ANSI_COLOR_RED
+             "\t/h\t: For this lovely page\n\t/q\t: Closes this program.\n"
+             ANSI_COLOR_RESET);
+
     } else if (strcmp(token, "/me") == 0) {
- 
-//      fgets(str, sizeof(str), stdin);
+  /*  Its fate is to be determined 
+      fgets(str, sizeof(str), stdin);
       printf("%s %s", userID, str);
-    
+   */  
     } else if (strcmp(str, "/q") == 0) {
+      /* Soft-quiting */
       break;
     }
   }
@@ -207,7 +228,7 @@ void initClientSocket()
   struct sockaddr_in  addr;
   int i;
 
-/* create socket */
+  /* create socket */
   mySocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (mySocket < 0) {
 
@@ -215,13 +236,13 @@ void initClientSocket()
     exit(-1);
   }
 
-/* setup address */
+  /* setup address */
   memset(&addr, 0, sizeof(addr));
   addr.sin_family = AF_INET;
   addr.sin_addr.s_addr = inet_addr(SERVER_IP);
   addr.sin_port = htons((unsigned short) SERVER_PORT);
 
-/* connect to server */
+  /* connect to server */
 
   i = connect(mySocket, 
               (struct sockaddr *) &addr,
@@ -241,8 +262,8 @@ void initClientSocket()
  *  just like how printf is implemented.
  *  I googled it.
  *  If you don't believe me google or man printf it, yes I just did that
- *  Ok this comment is way too long and I am having a conversation with you (marker),
- *  soo .. Hi bye
+ *  Ok this comment is way too long and I am having a conversation with you 
+ *  (marker).... soo .. Hi bye
  */
 void ncurses(int count,  ...) {
     va_list args;

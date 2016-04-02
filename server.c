@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//                                  come at me                                //      
+//                                  come at me                                //
 //                  ▄▄▄▄  ▄▄▄▄▄▄ ▄▄▄▄▄  ▄    ▄ ▄▄▄▄▄▄ ▄▄▄▄▄                   //
 //                 █▀   ▀ █      █   ▀█ ▀▄  ▄▀ █      █   ▀█                  //
 //                 ▀█▄▄▄  █▄▄▄▄▄ █▄▄▄▄▀  █  █  █▄▄▄▄▄ █▄▄▄▄▀                  //
@@ -104,15 +104,16 @@ void _help();
 void giveMeTime () {
   /*
    * Prints out time in Sun Aug 19 02:56:02 2012 
-   * Note, this is only useful to log things over the server, if in case the server
-   * is able to multiplex and receive simontantious connections from users.
-   * However, I thought it would look cool over at the server end
-   * Yes it would look cool and I am sure no one in the class is even doing anything
-   * close to how I am doing this assignment.
-   * In fact, I am treating this assignment as if it was worth 100% of my totoal mark
+   * Note, this is only useful to log things over the server, if in case the 
+   * server is able to multiplex and receive  simontantious connections from 
+   * users. However, I thought it would look cool over at the server end.Yes 
+   * it  would  look  cool  and  I am sure no one in the class is even doing 
+   * anything close to how I am doing this assignment.In fact, I am treating
+   * this assignment as if it was worth 100% of my totoal mark
    *
-   * You can find the tutorial for printing out time using time.h over here
-   * http://www.tutorialspoint.com/c_standard_library/c_function_strftime.htm */
+   * You can find the tutorial for  printing out time using time.h over here
+   *http://www.tutorialspoint.com/c_standard_library/c_function_strftime.htm 
+   */
 
   time_t rtime;         // rawtime;
   struct tm *info;
@@ -131,63 +132,91 @@ int main(int argc, char **argv)
 
   /* Default arguments to start the server with. To implement argc argv,
    * to inlcude custom parameters to run the server under.
-   * (i.e --limit x ; which would limit the number of songs a user can enter
-   * --permission ; which would only allow a user to store a song and protect it
-   *                from being accessed by other users. [by userID only]
-   *                which means its not secure, but gives the illusion of security :p
+   *  (i.e --limit x ; which would limit the number of songs a user can enter
    *
+   *  --permission ; which would  only  allow  a  user  to  store  a song and 
+          *          protect it from being accessed by other users, by userID
+          *          which  means it's not secure,  but gives the illusion of 
+          *          security :p
+   * --help ; displays a helpful page 
    */
+
   if (argc > 1) {
      if(sizeof(argv[1]) > 0) {
          if(strcmp(argv[1], "--help") == 0) {
              printf("You have reached the help page\n");
              return 0;
          } else {
-             printf(ANSI_BOLD ANSI_COLOR_RED ANSI_ITALIC "%s" ANSI_COLOR_RESET
+             printf(ANSI_BOLD ANSI_COLOR_RED ANSI_ITALIC 
+                    "%s" 
+                    ANSI_COLOR_RESET
                     " is not understood.\n", argv[1]);
 	     return 0;
          }
      }
   }
-
+  /* Initiat Socket Connection */
   initServerSocket();
-
 
   while (1) {
 
-/*  waiting for next client to connect  */
+    /* waiting for next client to connect  */
 
-   // printf("\n%s\n",_DEFAULT_USER_ID);
     waitForConnection();
 
     recvText(userID);
-    printf(ANSI_ITALIC "User %s has joined the server.\n" ANSI_COLOR_RESET);
-/*  a client has connected  */
 
-/* read messages from client and do something with it  */
+    printf(ANSI_ITALIC "User %s has joined the server.\n" ANSI_COLOR_RESET);
+
+    /* read messages from client and do something with it  */
+
     while (1) {
       recvText(buffer);
-      //printf(ANSI_COLOR_GREEN "lol :  %s\n" ANSI_COLOR_RESET, buffer);
+
       if(strcmp(buffer,"/q") == 0) {
-        printf(ANSI_COLOR_RED "User " ANSI_COLOR_RESET ANSI_GREY_BCK "%s" ANSI_COLOR_RESET ANSI_COLOR_RED" has disconnected..." 
-               ANSI_ITALIC , userID);
-	giveMeTime(); printf(ANSI_COLOR_RESET "\n");
-        break;
+          printf(ANSI_COLOR_RED 
+                 "User " 
+                 ANSI_COLOR_RESET ANSI_GREY_BCK 
+                 "%s" 
+                 ANSI_COLOR_RESET ANSI_COLOR_RED
+                 " has disconnected..." 
+                 ANSI_ITALIC , userID);
+
+	  giveMeTime();
+          printf(ANSI_COLOR_RESET "\n");
+          break;
+
       } else if(strcmp(buffer, "/h") == 0) {
-        printf(ANSI_COLOR_BLUE "User " ANSI_COLOR_RESET ANSI_GREY_BCK "%s" ANSI_COLOR_RESET ANSI_COLOR_RED " has requested help page.\n" ANSI_COLOR_RESET, userID); 
+          printf(ANSI_COLOR_BLUE
+                 "User "
+                 ANSI_COLOR_RESET ANSI_GREY_BCK 
+                 "%s" 
+                 ANSI_COLOR_RESET ANSI_COLOR_RED 
+                 " has requested help page.\n" 
+                 ANSI_COLOR_RESET, userID);
+ 
       } else if (strcmp(buffer, "/s") == 0) {
-        /* The user has requested to send a song to the server */
-	printf(ANSI_COLOR_YELLOW ANSI_ITALIC "User '%s' is sending a song over.\n" ANSI_COLOR_RESET, userID);
+          /* The user has requested to send a song to the server */
+          printf(ANSI_COLOR_YELLOW ANSI_ITALIC 
+                 "User '%s' is sending a song over.\n"
+                 ANSI_COLOR_RESET, userID);
+
       } else {
-        printf(ANSI_COLOR_GREY "User" ANSI_COLOR_CYAN ": %s" ANSI_COLOR_RESET ":  %s\n", userID, buffer);
+          /* Print the user input, including his username */ 
+          printf(ANSI_COLOR_GREY 
+                 "User" 
+                 ANSI_COLOR_CYAN 
+                 ": %s"
+                 ANSI_COLOR_RESET
+                 ":  %s\n", userID, buffer);
       }
     }
 
-/*  closing this client's connection  */
+    /* closing this client's connection  */
     close(clientSocket);
   }
 
-/*  all done, no more clients will be connecting  */
+  /* all done, no more clients will be connecting  */
   close(myListenSocket);
 
   return 0;
@@ -198,37 +227,47 @@ void initServerSocket()
   struct sockaddr_in  myAddr;
   int i;
 
-/* create socket */
+  /* create socket */
   myListenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (myListenSocket < 0) {
-    printf("couldn't open socket\n");
-    exit(-1);
+      printf("couldn't open socket\n");
+      exit(-1);
   }
                                                                                 
-/* setup my server address */
+  /* setup my server address */
   memset(&myAddr, 0, sizeof(myAddr));
   myAddr.sin_family = AF_INET;
   myAddr.sin_addr.s_addr = htonl(INADDR_ANY);
   myAddr.sin_port = htons((unsigned short) MY_PORT);
 
-/* bind my listen socket */
+  /* bind my listen socket */
   i = bind(myListenSocket,
            (struct sockaddr *) &myAddr,
            sizeof(myAddr));
   if (i < 0) {
-    printf(INIT_FAIL "Woops... I'm sorry, something went terribly wrong.\n" COLOR_RESET);
-    printf(INIT_DESC "ERROR: Couldn't bind socket\n" COLOR_RESET);
+      printf(INIT_FAIL 
+             "Woops... I'm sorry, something went terribly wrong.\n" 
+             ANSI_COLOR_RESET INIT_DESC 
+             "ERROR: Couldn't bind socket\n" 
+             ANSI_COLOR_RESET);
     exit(-1);
   }
 
-/* listen */
+  /* listen */
   i = listen(myListenSocket, 5);
+
   if (i < 0) {
-    printf(INIT_FAIL "Woops... I'm sorry, something went terribly wrong.\n" COLOR_RESET);
-    printf("couldn't listen\n");
+    printf(INIT_FAIL 
+           "Woops... I'm sorry, something went terribly wrong.\n" 
+           ANSI_COLOR_RESET
+           "couldn't listen\n");
     exit(-1);
   }
-  printf(INIT_SUCCESS "The server has been successfully initalized. For further help please type /h on the client end\n" COLOR_RESET);
+
+  printf(INIT_SUCCESS 
+         "The server has been successfully initalized. For further help please "
+         "type /h on the client end\n" 
+         ANSI_COLOR_RESET);
 
 }
 
@@ -239,7 +278,7 @@ void waitForConnection()
 
   printf("waiting for connection... \n");
 
-/* wait for connection request */
+  /* wait for connection request */
   clientSocket = accept(myListenSocket,
                         (struct sockaddr *) &clientAddr,
                         &addrSize);
@@ -249,8 +288,8 @@ void waitForConnection()
   }
 
   printf("got one!\n");
- // Get Client IP address
-//  printf("\nIP address is: %s\n", inet_ntoa((struct in_addr *) &clientAddr));
+  /* Get Client IP address */
+  // printf("\nIP address is: %s\n", inet_ntoa((struct in_addr *) &clientAddr));
 
 }
 
