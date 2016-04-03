@@ -34,12 +34,12 @@ typedef struct  {
 /* Node */
 typedef struct node {
   SongType data;
-  struct Node *next;
+  struct node *next;
 } Node;
 
 /* ListType */
 typedef struct  {
-  struct Node *Node;
+  struct Node *songList;
 } ListType;
 
 

@@ -25,16 +25,15 @@ void closeMySocket(int);
 /* DEPRECATED */ 
 //  void _Help();
 
-
 /* Linked-List Control Mechanisims */
 void insertSong(Node *song, SongType info);
-void findSong(Node *song, SongType info);
+void findSong(ListType *song, SongType info);
 
 /* Similar to find, except it frees the memory of the song found,
  * hence removing the song.
  */
-void removeSong(Node *song, SongType info);
-void printSongInfo(Node *song);
+void removeSong(ListType *song, SongType info);
+void printSongInfo(ListType *song);
 
 /* Misc. Functions */
 void giveMeTime();  // Prints out the current time, refer to servFun.c for more

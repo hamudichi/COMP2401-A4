@@ -15,6 +15,17 @@
 
 #define MAX_USER_NAME 32
 
+/* Socket Related Defintions */
+#define SERVER_IP "127.0.0.1"
+#define SERVER_IP_n "SOME_NAT_IP!!!!"
+#define SERVER_PORT 60003
+
+
+/* Function ProtoTypes */
+
+int mySocket;
+void initClientSocket();
+void ncurses(int, ...);
 
 /* enumeration types */
 typedef enum err {
@@ -22,7 +33,7 @@ typedef enum err {
    _SOCKET_ERROR
 } err;
 
-/* Declarations */
+
 
 
 /*

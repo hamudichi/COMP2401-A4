@@ -1,5 +1,14 @@
-// Server Functions
-
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//          ▄▄▄▄  ▄▄▄▄▄▄ ▄▄▄▄▄  ▄    ▄ ▄▄▄▄▄▄ ▄▄▄▄▄         ▄▄▄▄▄▄            //
+//         █▀   ▀ █      █   ▀█ ▀▄  ▄▀ █      █   ▀█        █                 //
+//         ▀█▄▄▄  █▄▄▄▄▄ █▄▄▄▄▀  █  █  █▄▄▄▄▄ █▄▄▄▄▀  ▄▄▄▄  █▄▄▄▄▄            //
+//             ▀█ █      █   ▀▄  ▀▄▄▀  █      █   ▀▄        █                 //
+//         ▀▄▄▄█▀ █▄▄▄▄▄ █    ▀   ██   █▄▄▄▄▄ █    ▀        █     unctions    //
+//                                                                            //
+// Contains: Server's functions                                               //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 /* All headers used by this program can be found here*/
 #include "headers.h"
 
@@ -11,6 +20,7 @@ void closeMySocket(int i) {
   if (i == 0) close(clientSocket); else close(myListenSocket);
 }
 
+/*----------------------------------------------------------------------------*/
 
 void giveMeTime () {
   /*
@@ -35,7 +45,10 @@ void giveMeTime () {
   strftime(buffer, 80, "%c", info);
   printf("%s",buffer);
 }
-
+/*----------------------------------------------------------------------------*/
+/* Initializes connection with the client. 
+ * - TODO : ADD a function to get the ip address of the client in connection
+ */
 void initServerSocket()
 {
   struct sockaddr_in  myAddr;
@@ -84,7 +97,7 @@ void initServerSocket()
          ANSI_COLOR_RESET);
 
 }
-
+/*----------------------------------------------------------------------------*/
 
 void waitForConnection()
 {
@@ -107,6 +120,7 @@ void waitForConnection()
   // printf("\nIP address is: %s\n", inet_ntoa((struct in_addr *) &clientAddr));
 
 }
+/*----------------------------------------------------------------------------*/
 
 void recvText(char *text)
 {
@@ -119,4 +133,22 @@ void recvText(char *text)
   buff[bytesRcv] = '\0';
   strcpy(text, buff);
 }
+
+/*----------------------------------------------------------------------------*/
+/* Singly Linked List Functions */
+
+void insertSong(Node *song, SongType info) {
+    /* Iterate threw the list */
+    while( song != NULL) {
+         song = song -> next;
+    }
+
+    /* Allocate new memory for the new node*/
+    song -> next = (Node *)malloc(sizeof(Node)); // mem allocations
+    song = song -> next;       // the current song, becomes the new song
+    song -> data = info;       // Insert new song information, sent by client
+    song -> next = NULL;       // Set the next pointer to NUll for the new node
+}
+
+
 
