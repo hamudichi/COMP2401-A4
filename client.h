@@ -13,6 +13,7 @@
 #ifndef client_h
 #define client_h
 
+#define VERSION "0.1a"
 #define MAX_USER_NAME 32
 
 /* Socket Related Defintions */
@@ -27,15 +28,15 @@ int mySocket;
 void initClientSocket();
 void ncurses(int, ...);                  // ncurses interface
 int extArguments(int, char **);   // Deals with command preprocessors
-void getUserID(char *, int unsigned); // gets userID from user
+void getUserID(char *, int ); // gets userID from user
+void dealWithIt();
 
-/* enumeration types */
-typedef enum err {
-   _SERVER_CONNECTION_FAILURE,
-   _SOCKET_ERROR
-} err;
-
-
+///* enumeration types */
+//typedef enum err {
+//   _SERVER_CONNECTION_FAILURE,
+//   _SOCKET_ERROR
+//} err;
+//
 
 
 /*

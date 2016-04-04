@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
-//                                  come at me                                // 
+//                                  come at me                                //
 //                     ▄▄▄  ▄      ▄▄▄▄▄  ▄▄▄▄▄▄ ▄▄   ▄▄▄▄▄▄▄▄                //
-//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   // 
+//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   //
 //                   █      █        █    █▄▄▄▄▄ █ █▄ █   █                   //
 //                   █      █        █    █      █  █ █   █                   //
 //                    ▀▄▄▄▀ █▄▄▄▄▄ ▄▄█▄▄  █▄▄▄▄▄ █   ██   █                   //
@@ -78,28 +78,49 @@
 /*-----------------------------------------------------------------------------*/
 int main(int argc, char **argv)
 {
-  err *currErr;
   char str[MAX_STR];
   char userID[MAX_USER_NAME];
   char buffer[MAX_BUFF];
   const char s[3] = "/me";
   char *token;
+
+  dealWithIt();
+  
+  printf("\x1b[2J\x1b[1;1H"
+         ANSI_COLOR_RED
+         ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
+         ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
+         ANSI_COLOR_RED  "██  ██ ▄▀  ▀▄ █      █    █" 
+         ANSI_COLOR_BLUE " █▀   ▀   █    ▄▀   ▀\n"
+         ANSI_COLOR_RED  "█ ██ █ █    █ █▄▄▄▄▄ █    █"
+         ANSI_BOLD
+         ANSI_COLOR_BLUE " ▀█▄▄▄    █    █     \n"
+         ANSI_COLOR_RED  "█ ▀▀ █ █    █ █      █    █"
+         ANSI_COLOR_BLUE "     ▀█   █    █     \n"
+         ANSI_COLOR_RED  "█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
+         ANSI_COLOR_BLUE " ▀▄▄▄█▀ ▄▄█▄▄   ▀▄▄▄▀"
+         " Version %s \n\n"
+         ANSI_COLOR_RESET, 
+         VERSION
+  );
   
   /* External Preprocessor commands */
   if (extArguments (argc,argv) == 0) {return 0;}
   
   /* Welcome Screen and ask for username */
-  getUserID(&userID, sizeof(userID));
-
-  printf(ANSI_COLOR_GREEN
-         "Establising connection to server %s:%d \n\nFor further assistance or "
-         "help, please visit the help page by simply typing "
-         ANSI_COLOR_GREEN 
-         "'/h'"
-         ANSI_COLOR_RESET" \n", ANSI_COLOR_RESET, SERVER_IP,SERVER_PORT);
+  getUserID(userID, (unsigned) sizeof(userID));
 
   /* Initiats connections */
   initClientSocket();
+
+  /* Display confirmation for user */
+  printf(ANSI_COLOR_GREEN
+         "Establising connection to server %s:%d \n\n"
+         "For further assistance or "
+         "help, please visit the help page by simply typing "
+         ANSI_COLOR_YELLOW 
+         "'/h'"
+         ANSI_COLOR_RESET" \n", SERVER_IP, SERVER_PORT);
 
   /* SEND USER THAT WE GOT FROM THE ABOVE fgets */
   userID[strlen(userID)-1] = '\0'; // add a terminator at the end of the char[]

@@ -39,7 +39,8 @@ typedef struct node {
 
 /* ListType */
 typedef struct  {
-  struct Node *songList;
+  struct Node *head;
+  struct Node *tail;
 } ListType;
 
 

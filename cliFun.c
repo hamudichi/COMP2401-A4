@@ -12,9 +12,11 @@
 
 /* All header files */
 #include "headers.h"
+#include "ncurses.h"
+
 
 /*----------------------------------------------------------------------------*/
-void getUserID (char *userid, int unsigned size) {
+void getUserID (char *userid, int size) {
 
   /* Welcome Screen */
   printf("Welcome, this is the client end of MOEUSIC.\n"
@@ -23,10 +25,12 @@ void getUserID (char *userid, int unsigned size) {
          ANSI_COLOR_RESET);
 
   /* Gets username from user */
-  printf("\n%d\n", sizeof((void *) &userid));
   fgets(userid, size, stdin);
-  printf("\n%d\n", sizeof(userid));
+
 }
+/*----------------------------------------------------------------------------*/
+
+
 
 
 /*----------------------------------------------------------------------------*/
@@ -84,7 +88,7 @@ int extArguments (int argc, char **argv) {
               "to run the client under.\n");
   }
 
-
+  return 1;
 
 }
 
@@ -142,7 +146,43 @@ void ncurses(int count,  ...) {
         sum += va_arg(args, int);
     //  printf("%s",va_arg(args, char));
     va_end(args);
-
+    initscr();
+    start_color();
+    printw("Ncurses interface");
+    
+    printw( "\n""This is fantastic\n");
+    attrset(COLOR_PAIR(2 % 2));
+    getch();
+    endwin();
     printf("%d\n", sum);
 }
 /*----------------------------------------------------------------------------*/
+void dealWithIt() {
+  printf("\n" ANSI_COLOR_BLUE
+        " █▀                        ▀▄     looks around      \n"
+        "▄▀                          ▀▄    see's you looking \n" 
+        "█     ███           ███      █                      \n"
+        "█     ▀▀▀           ▀▀▀      █    looks at you      \n"
+        " █                          █                       \n"
+        "  ▀                        ▀                        \n"
+        "           ▀▀▀▀▀▀                                   \n"
+        ANSI_COLOR_YELLOW
+        " █▀                               ▀▄                                       \n"
+        "▄▀                                 ▀▄   ▄            ███████       ███████ \n"
+        "█            ███           ███      █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ \n"
+        "█            ▀▀▀           ▀▀▀      █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ \n"
+        " █                                 █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ \n"
+        "  ▀                               ▀      puts on glasses...like a boss     \n"
+        "                  ▀▀▀▀▀▀                            \n"
+        ANSI_COLOR_RED
+        " █▀                               ▀▄                \n"
+        "▄▀         ███████       ███████   ▀▄               \n"
+        "█    ▄▄▄▄▄▄███████       ███████    █  deal with it \n"
+        "█    ▀     ███████       ███████    █               \n"
+        " █         ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀   █                \n"
+        "  ▀                               ▀                 \n"
+        "                  ▀▀▀▀▀▀                            \n"
+        ANSI_COLOR_RESET
+  );
+  sleep(3);
+}
