@@ -25,7 +25,9 @@
 
 int mySocket;
 void initClientSocket();
-void ncurses(int, ...);
+void ncurses(int, ...);                  // ncurses interface
+int extArguments(int, char **);   // Deals with command preprocessors
+void getUserID(char *, int unsigned); // gets userID from user
 
 /* enumeration types */
 typedef enum err {
