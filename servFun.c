@@ -13,7 +13,6 @@
 #include "headers.h"
 
 
-
 int myListenSocket, clientSocket;
 
 void closeMySocket(int i) {
@@ -135,10 +134,18 @@ void recvText(char *text)
 }
 
 /*----------------------------------------------------------------------------*/
+int compareSongs (SongType a, SongType b) {
+   if (a.name == b.name && a.artist == b.artist && a.album == b.album &&
+       a.duration == b.duration) 
+       return 0; 
+   else 
+       return 1;
+}
+
 /* Singly Linked List Functions */
 
 void insertSong(Node *song, SongType info) {
-    /* Iterate threw the list */
+    /* Iterate through the list */
     while( song != NULL) {
          song = song -> next;
     }
@@ -150,5 +157,65 @@ void insertSong(Node *song, SongType info) {
     song -> next = NULL;       // Set the next pointer to NUll for the new node
 }
 
+void removeSong(Node *song, SongType info) {
+    /* Iterate through the list*/
+    while(song -> next != NULL && compareSongs((song -> next) -> data,info) == 1){
+        song = song -> next;
+    }
+
+    /* In the case of not finding the song in the list */
+    if (song -> next == NULL) { 
+        printf(ANSI_COLOR_YELLOW
+               "Uhm...awkward... I couldn't find that song in my list :(.\n"
+               ANSI_COLOR_RESET );
+        return; // exit
+    }
+
+    /*
+     * To clean up our mess. We need to make a temporary node and save the info
+     * into that temporary node, until we can move the "next" node, and then we
+     * are able to restore the info we put in temp.
+     */
+
+    Node *tempNode; 
+    tempNode = song -> next;           // points to the removed node
+    song -> next = tempNode -> next;   // relink
+
+    /*
+     * At this point we have cleaned up our mess and relinked the list, we can
+     * now free tempNode into memory land it always belonged to. In boring
+     * terms deallocate the memory.
+     */
+
+    free(tempNode);
+}
+
+void showMeSong(Node *song) {
+    /* 
+     * We need to know whats inside a song...don't we ?! I mean what the heck is
+     * the whole point if we didn't.... :(
+     */
+    if (song == NULL) {printf("NULL YOUR LIFE YOU FREEK!!!"); return;}
+  
+    /* If all is good, it is then time to crack open SongType into strings */
+    printf(ANSI_COLOR_RESET
+           "Name:%10s\n"
+           "Artist:%10s\n"
+           "Album:%10s\n"
+           "Duration:%10d\n"
+           ,song -> data.name, song -> data.artist 
+           ,song -> data.album, song -> data.duration);
+
+}
 
 
+/* the use of an int function is to simulate a bool*/
+int findSong(Node *song, SongType info){
+   /* Finding the song using SongType */
+   while (song != NULL) {
+      if ( compareSongs(song -> data, info) == 0) { return 1;}
+      song = song -> next;     // go into the next node
+   }
+   /* In the case in which the node was not found*/
+   return 0;
+}
