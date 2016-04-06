@@ -1,4 +1,99 @@
-# COMP2401-A4
-
-In this Assignment, it was asked to make a server and a client which communicate over TCP.
-
+////////////////////////////////////////////////////////////////////////////////
+//              ▄▄▄   ▄▄▄▄  ▄    ▄ ▄▄▄▄▄   ▄▄▄▄     ▄▄   ▄▄▄▄  ▄▄▄            //
+//            ▄▀   ▀ ▄▀  ▀▄ ██  ██ █   ▀█ ▀   ▀█   ▄▀█  ▄▀  ▀▄   █            //
+//            █      █    █ █ ██ █ █▄▄▄█▀     ▄▀  █▀ █  █  ▄ █   █            //
+//            █      █    █ █ ▀▀ █ █        ▄▀   █▄▄▄█▄ █    █   █            //
+//             ▀▄▄▄▀  █▄▄█  █    █ █      ▄█▄▄▄▄     █   █▄▄█  ▄▄█▄▄          //
+//----------------------------------------------------------------------------//
+//                Mohamad Yassine - Assignment 4 - April 2016                 //
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                  come at me                                //
+//                     ▄▄▄  ▄      ▄▄▄▄▄  ▄▄▄▄▄▄ ▄▄   ▄▄▄▄▄▄▄▄                //
+//                   ▄▀   ▀ █        █    █      █▀▄  █   █                   //
+//                   █      █        █    █▄▄▄▄▄ █ █▄ █   █                   //
+//                   █      █        █    █      █  █ █   █                   //
+//                    ▀▄▄▄▀ █▄▄▄▄▄ ▄▄█▄▄  █▄▄▄▄▄ █   ██   █                   //
+//                                                                            //
+//                                                                            //
+//    Author: Mohamad Yassine, 2016                                           //
+//                                                                            //
+//    Purpose: To connect over TCP and store song information in a data       //
+//             structure found in defs.h, in addition provide the client      //
+//             with the songs that have been stored in the server.            //
+//                                                                            //
+//    Client:  This is the client end, which is much more fancier than the    //
+//             server end. You are welcome.                                   //
+//                                                                            //
+//    Things to improve:                                                      //
+//             - Read an MP3 file and read it's headers for song info         //
+//               and then convert the file into binary and send it over.      //
+//             - Usage of a GUI library, such as GTK or QT                    //
+//             - Play sounds (that is haha)                                   //
+//             - Dynamically change the server, without closing the client    //
+//             - TO BE DETERMINED                                             //
+//                                                                            //
+//    Implemented Features:                                                   //
+//             - Storing a song in provided data structures in defs.h         //
+//             - Requesting Song list from the server                         //
+//             - Encryption of packets sent over TCP                          //
+//             - /me ate an apple                                             //
+//             - Command line options (check --help)                          //
+//             - Ncurses library, for eye-candy                               //
+//        TBD  - ALSA library                                                 //
+//             - Use of UNIX 80 character limit, as provided by IBM Punchcard //
+//                 I googled it... !                                          //
+//             - TO ADD LATER MORE BEFORE HANDING IN NOTICE ME SEMPAI!!       //
+//                                                                            //
+//    Compilation:                                                            //
+//             $ gcc client.c -o client -lncurses -lmenu                      //
+//                                                                            //
+//    Execution:                                                              //
+//             $ ./client                                                     //
+//                                                                            //
+//    LICENSE: This program is licensed under GNU Public License, refer to    //
+//             the LICENSE file provided in the main directory.               //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//                                  come at me                                //
+//                  ▄▄▄▄  ▄▄▄▄▄▄ ▄▄▄▄▄  ▄    ▄ ▄▄▄▄▄▄ ▄▄▄▄▄                   //
+//                 █▀   ▀ █      █   ▀█ ▀▄  ▄▀ █      █   ▀█                  //
+//                 ▀█▄▄▄  █▄▄▄▄▄ █▄▄▄▄▀  █  █  █▄▄▄▄▄ █▄▄▄▄▀                  //
+//                     ▀█ █      █   ▀▄  ▀▄▄▀  █      █   ▀▄                  //
+//                 ▀▄▄▄█▀ █▄▄▄▄▄ █    ▀   ██   █▄▄▄▄▄ █    █                  //
+//                                                                            //
+//                                                                            //
+//    Author: Mohamad Yassine, 2016                                           //
+//                                                                            //
+//    Purpose: To connect over TCP and store song information in a data       //
+//             structure found in defs.h, in addition provide the client      //
+//             with the songs that have been stored in the server.            //
+//                                                                            //
+//    Things to improve:                                                      //
+//             - Store songs in a file and read when if a server failue       //
+//               occurs. Also provides the ability of shutting down the       //
+//               the server, which is pretty useful.                          //
+//             - A better encryption method.                                  //
+//             - Multiplex connections, to provide simontanous connections    //
+//             - Provide a GUI or Ncurses page for easier use & navigation    //
+//             - Implement the UDP protocol to transmit file and to not rely  //
+//                                                                            //
+//    Implemented Features:                                                   //
+//             - Singly Linked List                                           //
+//             - Command line options (check --help)                          //
+//             - Organized Logging of client activity                         //
+//             - Use of UNIX 80 character limit, as provided by IBM Punchcard //
+//                 I googled it... !                                          //
+//             - TO ADD LATER MORE BEFORE HANDING IN NOTICE ME SEMPAI!!       //
+//                                                                            //
+//    Compilation:                                                            //
+//             $ gcc server.c -o server                                       //
+//                                                                            //
+//    Execution:                                                              //
+//             $ ./server                                                     //
+//                                                                            //
+//    LICENSE: This program is licensed under GNU Public License, refer to    //
+//             the LICENSE file provided in the main folder.                  //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
