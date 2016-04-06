@@ -51,9 +51,6 @@
 //    Execution:                                                              //
 //             $ ./client                                                     //
 //                                                                            //
-//    LICENSE: This program is licensed under GNU Public License, refer to    //
-//             the LICENSE file provided in the main directory.               //
-//                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 //                                  come at me                                //
@@ -93,7 +90,5 @@
 //    Execution:                                                              //
 //             $ ./server                                                     //
 //                                                                            //
-//    LICENSE: This program is licensed under GNU Public License, refer to    //
-//             the LICENSE file provided in the main folder.                  //
 //                                                                            //
 ////////////////////////////////////////////////////////////////////////////////
