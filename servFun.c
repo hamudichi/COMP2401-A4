@@ -219,3 +219,39 @@ int findSong(Node *song, SongType info){
    /* In the case in which the node was not found*/
    return 0;
 }
+/*----------------------------------------------------------------------------*/
+void dealWithIt() {
+  printf( ANSI_CLEAR
+   "\n" ANSI_COLOR_BLUE
+   " █▀                        ▀▄     looks around      \n"
+   "▄▀                          ▀▄    see's you looking \n"
+   "█     ███           ███      █                      \n"
+   "█     ▀▀▀           ▀▀▀      █    looks at you      \n"
+   " █                          █                       \n"
+   "  ▀                        ▀                        \n"
+   "           ▀▀▀▀▀▀                                   \n");
+  sleep(1);
+  printf( ANSI_CLEAR
+   ANSI_COLOR_YELLOW
+   " █▀                             ▀▄                                       \n"
+   "▄▀                               ▀▄   ▄            ███████       ███████ \n"
+   "█            ███         ███      █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ \n"
+   "█            ▀▀▀         ▀▀▀      █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ \n"
+   " █                               █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ \n"
+   "  ▀                             ▀      puts on glasses...like a boss     \n"
+   "                  ▀▀▀▀▀▀                            \n");
+  sleep(1);
+  printf( ANSI_CLEAR
+   ANSI_COLOR_RED
+   " █▀                               ▀▄                \n"
+   "▄▀         ███████       ███████   ▀▄               \n"
+   "█    ▄▄▄▄▄▄███████       ███████    █  deal with it \n"
+   "█    ▀     ███████       ███████    █               \n"
+   " █         ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀   █                \n"
+   "  ▀                               ▀                 \n"
+   "                  ▀▀▀▀▀▀                            \n"
+   ANSI_COLOR_RESET
+  );  
+  sleep(3);
+}
+/*----------------------------------------------------------------------------*/

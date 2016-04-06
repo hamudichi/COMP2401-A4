@@ -81,6 +81,7 @@
 int main(int argc, char **argv)
 {
   char buffer[MAX_BUFF];
+  char **songINFO =  malloc(sizeof(SongType *));
   char userID[MAX_USER_NAME] = _DEFAULT_USER_ID;
 
   /* Default arguments to start the server with. To implement argc argv,
@@ -108,6 +109,28 @@ int main(int argc, char **argv)
          }
      }
   }
+
+  dealWithIt();
+
+  printf("\x1b[2J\x1b[1;1H"
+         ANSI_COLOR_RED
+         ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
+         ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
+         ANSI_COLOR_RED  "██  ██ ▄▀  ▀▄ █      █    █"
+         ANSI_COLOR_BLUE " █▀   ▀   █    ▄▀   ▀\n"
+         ANSI_COLOR_RED  "█ ██ █ █    █ █▄▄▄▄▄ █    █"
+         ANSI_BOLD
+         ANSI_COLOR_BLUE " ▀█▄▄▄    █    █     \n"
+         ANSI_COLOR_RED  "█ ▀▀ █ █    █ █      █    █"
+         ANSI_COLOR_BLUE "     ▀█   █    █      "
+         ANSI_BOLD ANSI_ITALIC "SERVER" ANSI_COLOR_RESET
+         ANSI_COLOR_RED  "\n█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
+         ANSI_COLOR_BLUE " ▀▄▄▄█▀ ▄▄█▄▄   ▀▄▄▄▀"
+         " Version %s \n\n"
+         ANSI_COLOR_RESET,
+         VERSION
+  );
+
   /* Initiat Socket Connection */
   initServerSocket();
 
@@ -127,7 +150,7 @@ int main(int argc, char **argv)
 
     while (1) {
       recvText(buffer);
-
+      decrypt(buffer);
       if(strcmp(buffer,"/q") == 0) {
           printf(ANSI_COLOR_RED 
                  "User " 
@@ -155,6 +178,11 @@ int main(int argc, char **argv)
           printf(ANSI_COLOR_YELLOW ANSI_ITALIC 
                  "User '%s' is sending a song over.\n"
                  ANSI_COLOR_RESET, userID);
+          printf(ANSI_COLOR_GREY ANSI_ITALIC ANSI_COLOR_CYAN
+                 "Receiving the next buffer from client,"
+                 " it should be the song information.\n"
+                 ANSI_COLOR_RESET);
+         
 
       } else {
           /* Print the user input, including his username */ 

@@ -29,11 +29,6 @@ void getUserID (char *userid, int size) {
 
 }
 /*----------------------------------------------------------------------------*/
-
-
-
-
-/*----------------------------------------------------------------------------*/
 int extArguments (int argc, char **argv) {
 
   /* Reset any previous ANSI COLORING done by the bash */

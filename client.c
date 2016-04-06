@@ -86,7 +86,7 @@ int main(int argc, char **argv)
 
   dealWithIt();
   
-  printf("\x1b[2J\x1b[1;1H"
+  printf(ANSI_CLEAR
          ANSI_COLOR_RED
          ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
          ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
@@ -96,8 +96,9 @@ int main(int argc, char **argv)
          ANSI_BOLD
          ANSI_COLOR_BLUE " ▀█▄▄▄    █    █     \n"
          ANSI_COLOR_RED  "█ ▀▀ █ █    █ █      █    █"
-         ANSI_COLOR_BLUE "     ▀█   █    █     \n"
-         ANSI_COLOR_RED  "█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
+         ANSI_COLOR_BLUE "     ▀█   █    █      "
+         ANSI_BOLD ANSI_ITALIC "CLIENT" ANSI_COLOR_RESET
+         ANSI_COLOR_RED  "\n█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
          ANSI_COLOR_BLUE " ▀▄▄▄█▀ ▄▄█▄▄   ▀▄▄▄▀"
          " Version %s \n\n"
          ANSI_COLOR_RESET, 
@@ -132,13 +133,10 @@ int main(int argc, char **argv)
     printf("Please enter message: ");
     fgets(str, sizeof(str), stdin);
     str[strlen(str)-1] = '\0';
-
+    encrypt(str);
     strcpy(buffer, str);
     send(mySocket, buffer, strlen(buffer), 0);
     
-    token = strtok (str, s);
-  //  printf("%s", token);
-
     if (strcmp(str, "/h") == 0) {
       printf(ANSI_COLOR_CYAN
              "Welcome to the help page. This is a beta-help page\n"
@@ -146,14 +144,23 @@ int main(int argc, char **argv)
              "the ncurses library.\n"
              "Commands include :\n"
              ANSI_COLOR_RED
-             "\t/h\t: For this lovely page\n\t/q\t: Closes this program.\n"
-             ANSI_COLOR_RESET);
-
-    } else if (strcmp(token, "/me") == 0) {
-  /*  Its fate is to be determined 
+             "\t/h\t: For this lovely page\n"
+             "\t/s\t: Send song to server"
+             "\t/q\t: Closes this program.\n"
+             ANSI_COLOR_RESET
+            );
+    } else if (strcmp(str, "/s") == 0 ) {
+      printf("So you want to send a song to server ... eh?\n");
+    } else if (strcmp(str, "/e") == 0 ) {
+      printf("GREAT!! finally someone cares about proper encrytion\n");
       fgets(str, sizeof(str), stdin);
-      printf("%s %s", userID, str);
-   */  
+      printf("Your original message %s ", str);
+      encrypt(str); 
+      printf(", your encrypted message %s\n", str);
+    } else if (strcmp(str, "/clear") == 0){
+      /* clear the screen so that only MOEUSIC logo is shown */ 
+    } else if (strcmp(token, "/me") == 0) {
+      // do something funny
     } else if (strcmp(str, "/q") == 0) {
       /* Soft-quiting */
       break;

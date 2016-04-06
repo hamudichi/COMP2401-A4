@@ -20,5 +20,5 @@
 #include "defs.h"
 #include "server.h"
 #include "client.h"
-
+#include "encryption.h"
 

@@ -14,5 +14,7 @@
 #define ANSI_ITALIC        "\x1b[03m"
 #define ANSI_UNDER         "\x1b[04m"
 #define ANSI_BOLD          "\x1b[01m"
+#define ANSI_CLEAR         "\e[1;1H\e[2J"
 
-#endif // colors_h
+
+#endif // colors_hi
