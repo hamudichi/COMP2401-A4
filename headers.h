@@ -21,4 +21,4 @@
 #include "server.h"
 #include "client.h"
 #include "encryption.h"
-
+#include "logo.h"

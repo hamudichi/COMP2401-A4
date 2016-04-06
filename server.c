@@ -111,25 +111,7 @@ int main(int argc, char **argv)
   }
 
   dealWithIt();
-
-  printf("\x1b[2J\x1b[1;1H"
-         ANSI_COLOR_RED
-         ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
-         ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
-         ANSI_COLOR_RED  "██  ██ ▄▀  ▀▄ █      █    █"
-         ANSI_COLOR_BLUE " █▀   ▀   █    ▄▀   ▀\n"
-         ANSI_COLOR_RED  "█ ██ █ █    █ █▄▄▄▄▄ █    █"
-         ANSI_BOLD
-         ANSI_COLOR_BLUE " ▀█▄▄▄    █    █     \n"
-         ANSI_COLOR_RED  "█ ▀▀ █ █    █ █      █    █"
-         ANSI_COLOR_BLUE "     ▀█   █    █      "
-         ANSI_BOLD ANSI_ITALIC "SERVER" ANSI_COLOR_RESET
-         ANSI_COLOR_RED  "\n█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
-         ANSI_COLOR_BLUE " ▀▄▄▄█▀ ▄▄█▄▄   ▀▄▄▄▀"
-         " Version %s \n\n"
-         ANSI_COLOR_RESET,
-         VERSION
-  );
+  printLogo("SERVER");
 
   /* Initiat Socket Connection */
   initServerSocket();

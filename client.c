@@ -85,25 +85,7 @@ int main(int argc, char **argv)
   char *token;
 
   dealWithIt();
-  
-  printf(ANSI_CLEAR
-         ANSI_COLOR_RED
-         ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
-         ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
-         ANSI_COLOR_RED  "██  ██ ▄▀  ▀▄ █      █    █" 
-         ANSI_COLOR_BLUE " █▀   ▀   █    ▄▀   ▀\n"
-         ANSI_COLOR_RED  "█ ██ █ █    █ █▄▄▄▄▄ █    █"
-         ANSI_BOLD
-         ANSI_COLOR_BLUE " ▀█▄▄▄    █    █     \n"
-         ANSI_COLOR_RED  "█ ▀▀ █ █    █ █      █    █"
-         ANSI_COLOR_BLUE "     ▀█   █    █      "
-         ANSI_BOLD ANSI_ITALIC "CLIENT" ANSI_COLOR_RESET
-         ANSI_COLOR_RED  "\n█    █  █▄▄█  █▄▄▄▄▄ ▀▄▄▄▄▀"
-         ANSI_COLOR_BLUE " ▀▄▄▄█▀ ▄▄█▄▄   ▀▄▄▄▀"
-         " Version %s \n\n"
-         ANSI_COLOR_RESET, 
-         VERSION
-  );
+  printLogo("CLIENT");
   
   /* External Preprocessor commands */
   if (extArguments (argc,argv) == 0) {return 0;}
