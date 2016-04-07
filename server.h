@@ -19,23 +19,20 @@
 void initServerSocket();      // Intializes socket connection
 void waitForConnection();
 void recvText(char*);        
+void decRecvText(char*);
 void closeMySocket(int);
 void dealWithIt();
-/* Interface Functions */
-/* DEPRECATED */ 
-//  void _Help();
-
-int compareSongs(SongType, SongType);
+int compareSongs(SongType *, SongType *);
 
 /* Linked-List Control Mechanisims */
-void insertSong(Node *song, SongType info);
-int  findSong(Node *song, SongType info);
+void insertSong(ListType *, NodeType *);
+int  findSong(ListType * , NodeType *);
 
 /* Similar to find, except it frees the memory of the song found,
  * hence removing the song.
  */
-void removeSong(Node *song, SongType info);
-void showMeSong(Node *song);
+void removeSong(ListType *list, NodeType *song);
+void showMeSong(ListType *list, NodeType *song);;
 
 /* Misc. Functions */
 void giveMeTime();  // Prints out the current time, refer to servFun.c for more

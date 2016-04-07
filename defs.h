@@ -28,14 +28,13 @@ typedef struct  {
   char artist[MAX_STR];
   char album[MAX_STR];
   int duration;
-  char eInfo[1024]; // Extra info about the song
 } SongType;
 
 /* Node */
-typedef struct node {
-  SongType data;
-  struct node *next;
-} Node;
+typedef struct Node {
+  SongType *data;
+  struct Node *next;
+} NodeType;
 
 /* ListType */
 typedef struct  {

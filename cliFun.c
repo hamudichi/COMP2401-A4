@@ -15,6 +15,12 @@
 #include "ncurses.h"
 
 /*----------------------------------------------------------------------------*/
+void encryptSend(int sockfd, void *buf, size_t len, int flags) {
+  encrypt(buf);
+  send(sockfd,buf,len,flags);
+}
+
+/*----------------------------------------------------------------------------*/
 void dispMenu(void){
   printf("Choose from the follwing options: \n"
          "a. Add Song\n"

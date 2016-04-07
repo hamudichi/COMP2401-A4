@@ -69,21 +69,12 @@
 /* All headers used by this program can be found here */
 #include "headers.h"
 
+/*----------------------------------------------------------------------------*/
+void signalHandler(int);
 
 /*----------------------------------------------------------------------------*/
-/* Definitions */
-//#define MY_PORT 60003
-//#define _DEFAULT_USER_ID "USER_TROLL_9000"
-
-//int myListenSocket, clientSocket;
-
-
 int main(int argc, char **argv)
 {
-  char buffer[MAX_BUFF];
-  char **songINFO =  malloc(sizeof(SongType *));
-  char userID[MAX_USER_NAME] = _DEFAULT_USER_ID;
-
   /* Default arguments to start the server with. To implement argc argv,
    * to inlcude custom parameters to run the server under.
    *  (i.e --limit x ; which would limit the number of songs a user can enter
@@ -94,12 +85,26 @@ int main(int argc, char **argv)
           *          security :p
    * --help ; displays a helpful page 
    */
+  char buffer[MAX_BUFF];
+  char userID[MAX_USER_NAME] = _DEFAULT_USER_ID;
+ 
+  ListType *list;
+  NodeType *tempNode = (NodeType *) malloc(sizeof(NodeType));
+  SongType *tempSong = (SongType *) malloc(sizeof(SongType));
+
 
   if (argc > 1) {
      if(sizeof(argv[1]) > 0) {
          if(strcmp(argv[1], "--help") == 0) {
              printf("You have reached the help page\n");
             return 0;
+         } else if (strcmp(argv[1], "--clear")) {
+             free(tempNode);
+             free(tempSong);
+             free(list);
+            // free(buffer);
+            // free(userID);
+             return 0;
          } else {
              printf(ANSI_BOLD ANSI_COLOR_RED ANSI_ITALIC 
                     "%s" 
@@ -109,7 +114,7 @@ int main(int argc, char **argv)
          }
      }
   }
-
+ 
   //  dealWithIt();
   printLogo("SERVER", CLEAR);
 
@@ -118,7 +123,9 @@ int main(int argc, char **argv)
 
   while (1) {
 
-    /* waiting for next client to connect  */
+    signal(SIGINT, signalHandler);
+
+   /* waiting for next client to connect  */
 
     waitForConnection();
 
@@ -131,8 +138,12 @@ int main(int argc, char **argv)
     /* read messages from client and do something with it  */
 
     while (1) {
-      recvText(buffer);
-      decrypt(buffer);
+      //  recvText(buffer);
+      //  decrypt(buffer);
+ 
+      /* Receives and decrypts */
+      decRecvText(buffer);
+
       if(strcmp(buffer,"d") == 0) {
           printf(ANSI_COLOR_RED 
                  "User " 
@@ -148,16 +159,62 @@ int main(int argc, char **argv)
      } else if (strcmp(buffer, "a") == 0) {
           /* The user has requested to send a song to the server */
           printf(ANSI_COLOR_YELLOW ANSI_ITALIC 
-                 "User '%s' is sending a song over.\n"
+                 "User '%s' is ADDing a song.\n"
                  ANSI_COLOR_RESET, userID);
+
           printf(ANSI_ITALIC ANSI_COLOR_CYAN
                  "Receiving the next buffer from client,"
                  " it should be the song information.\n"
                  ANSI_COLOR_RESET);
+
+          printf(ANSI_COLOR_GREEN);
+
+          /* Receive the buffer for Name*/
+          decRecvText(buffer);            
+          printf("Name  : %s\n", buffer);
+          strcpy(tempSong -> name, buffer);
+          /* Receive the Artist */
+          decRecvText(buffer);
+          printf("Artist: %s\n", buffer);
+          strcpy(tempSong -> artist, buffer);
+          /* Receive the Album */       
+          decRecvText(buffer);  
+          printf("Album : %s\n", buffer);
+          strcpy(tempSong -> album, buffer);
+          /* Receive the Duration*/
+          decRecvText(buffer);
+          printf("Duration (mins): %s\n", buffer);
+          tempSong -> duration = atoi(buffer);
+          printf(ANSI_COLOR_RESET);
+          
+          /* TEMPORARY */
+          tempNode -> data = tempSong;
+          insertSong (list, tempNode);
+
+     //     showMeSong(list, tempNode);
+            
       } else if (strcmp(buffer, "b") == 0) {
          /* Delete Song */
+ 
+          /* Receive the buffer for Name*/
+          decRecvText(buffer);            
+          printf("Name  : %s\n", buffer);
+          strcpy(tempSong -> name, buffer);
+          /* Receive the Artist */
+          decRecvText(buffer);
+          printf("Artist: %s\n", buffer);
+          strcpy(tempSong -> artist, buffer);
+          /* Receive the Album */       
+          decRecvText(buffer);  
+         
+          /* TEMPORARY */
+          tempNode -> data = tempSong;
+          removeSong (list, tempNode);   
+               
       } else if (strcmp(buffer, "c") == 0) {
          /* Send Songs */
+          strcpy(buffer, "This is a test\0");
+          send(mySocket, buffer, sizeof(buffer), 0);
       } else {
           /* Print the user input, including his username */ 
           printf(ANSI_COLOR_GREY 
@@ -168,14 +225,25 @@ int main(int argc, char **argv)
                  ":  %s\n", userID, buffer);
       }
     }
-
-    /* closing this client's connection  */
+     /* closing this client's connection  */
     closeMySocket(0);
   }
-
-  /* all done, no more clients will be connecting  */
+ 
+ /* all done, no more clients will be connecting  */
   closeMySocket(1);
 
   return 0;
 }
 
+void signalHandler(int i){
+//  main(1, (char **) "--clean");  
+  printf(ANSI_COLOR_RED"\nIT IS YOUR CHOICE!!, JUST REMEMBER YOU WERE THE ONE THAT LEFT!! "
+         "\nI WAS VERY LOYAL TO YOU, I DID WHAT YOU ASKED AND THIS!!\n"
+         "LIKE THIS!?!?! IS HOW YOU GIVE IT BACK !! I HATE YOU! !!!\n"
+         "\n\nLater that day. Server commited suicide. By..cutting off its PID.\n"
+         ANSI_BOLD ANSI_ITALIC 
+         "you should feel bad for doing that\n\n"
+         ANSI_COLOR_RESET
+        );
+  exit(0);
+}

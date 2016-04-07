@@ -8,13 +8,11 @@
 #include <netinet/in.h>
 #include <time.h>
 #include <ctype.h>
+#include <signal.h>
 
 /* Check man pages for inet and close */
 #include <unistd.h>    // Added for close() "implicit declaration"
 #include <arpa/inet.h> // Added for inet_addr "implicit declaration"
-
-/* For macro ... va_list ..etc*/
-#include <stdarg.h>
 
 /* Local header files */
 #include "colors.h"

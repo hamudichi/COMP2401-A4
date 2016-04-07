@@ -130,6 +130,20 @@ void recvText(char *text)
 
   bytesRcv = recv(clientSocket, buff, sizeof(buff), 0);
   buff[bytesRcv] = '\0';
+  // decrypt(buff);
+  strcpy(text, buff);
+}
+
+void decRecvText(char *text)
+{
+  char buff[MAX_BUFF];
+  int bytesRcv;
+
+  buff[0] = '\0';
+
+  bytesRcv = recv(clientSocket, buff, sizeof(buff), 0);
+  buff[bytesRcv] = '\0';
+  decrypt(buff);
   strcpy(text, buff);
 }
 
@@ -137,9 +151,9 @@ void recvText(char *text)
 /* Just to make our lifes easier and allow us to compare the whole structure 
 ** at once.
 **/
-int compareSongs (SongType a, SongType b) {
-   if (a.name == b.name && a.artist == b.artist && a.album == b.album &&
-       a.duration == b.duration) 
+int compareSongs (SongType *a, SongType *b) {
+   if (a -> name == b -> name && a -> artist == b -> artist && a -> album == b -> album &&
+       a -> duration == b -> duration) 
        return 0; 
    else 
        return 1;
@@ -148,28 +162,31 @@ int compareSongs (SongType a, SongType b) {
 
 /* Singly Linked List Functions */
 
-void insertSong(Node *song, SongType info) {
+void insertSong(ListType *list, NodeType *song) {
     /* Iterate through the list */
-    while( song != NULL) {
-         song = song -> next;
-    }
+    if (list -> head == NULL) {
+      while( list -> head -> next != NULL) {
+           list -> head =  list -> head ->  next;
+      }
+    } 
 
     /* Allocate new memory for the new node*/
-    song -> next = (Node *)malloc(sizeof(Node)); // mem allocations
-    song = song -> next;       // the current song, becomes the new song
-    song -> data = info;       // Insert new song information, sent by client
-    song -> next = NULL;       // Set the next pointer to NUll for the new node
+    list -> head  = (NodeType *)malloc(sizeof(NodeType)); // mem allocations
+//    list -> head  = list -> head -> next;       // the current song, becomes the new song
+    list -> head -> data = song -> data;       // Insert new song information, sent by client
+    list -> head -> next = NULL;       // Set the next pointer to NUll for the new node
 }
 /*----------------------------------------------------------------------------*/
 
-void removeSong(Node *song, SongType info) {
+void removeSong(ListType *list, NodeType *song) {
     /* Iterate through the list*/
-    while(song -> next != NULL && compareSongs((song -> next) -> data,info) == 1){
-        song = song -> next;
+    while(list -> head -> next != NULL && 
+       compareSongs((list -> head -> next) -> data , song -> data) == 1){
+        list -> head  = list -> head -> next;
     }
 
     /* In the case of not finding the song in the list */
-    if (song -> next == NULL) { 
+    if (list -> head -> next == NULL) { 
         printf(ANSI_COLOR_YELLOW
                "Uhm...awkward... I couldn't find that song in my list :(.\n"
                ANSI_COLOR_RESET );
@@ -182,9 +199,9 @@ void removeSong(Node *song, SongType info) {
      * are able to restore the info we put in temp.
      */
 
-    Node *tempNode; 
-    tempNode = song -> next;           // points to the removed node
-    song -> next = tempNode -> next;   // relink
+    NodeType *tempNode; 
+    tempNode = list -> head -> next;           // points to the removed node
+    list -> head -> next = tempNode -> next;   // relink
 
     /*
      * At this point we have cleaned up our mess and relinked the list, we can
@@ -196,12 +213,12 @@ void removeSong(Node *song, SongType info) {
 }
 /*----------------------------------------------------------------------------*/
 
-void showMeSong(Node *song) {
+void showMeSong(ListType *list, NodeType *song) {
     /* 
      * We need to know whats inside a song...don't we ?! I mean what the heck is
      * the whole point if we didn't.... :(
      */
-    if (song == NULL) {printf("NULL YOUR LIFE YOU FREEK!!!"); return;}
+    if (song -> data  == NULL) {printf("NULL YOUR LIFE YOU FREEK!!!"); return;}
   
     /* If all is good, it is then time to crack open SongType into strings */
     printf(ANSI_COLOR_RESET
@@ -209,17 +226,17 @@ void showMeSong(Node *song) {
            "Artist:%10s\n"
            "Album:%10s\n"
            "Duration:%10d\n"
-           ,song -> data.name, song -> data.artist 
-           ,song -> data.album, song -> data.duration);
+           ,song -> data -> name, song -> data -> artist 
+           ,song -> data ->album, song -> data -> duration);
 
 }
 /*----------------------------------------------------------------------------*/
 /* the use of an int function is to simulate a bool*/
-int findSong(Node *song, SongType info){
-   /* Finding the song using SongType */
-   while (song != NULL) {
-      if ( compareSongs(song -> data, info) == 0) { return 1;}
-      song = song -> next;     // go into the next node
+int findSong(ListType *list, NodeType *song){
+   /* Finding the song using List */
+   while (list -> head != NULL) {
+      if ( compareSongs(list -> head -> data, song -> data) == 0) { return 1;}
+      list -> head  = list -> head -> next;     // go into the next node
    }
    /* In the case in which the node was not found*/
    return 0;

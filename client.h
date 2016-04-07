@@ -28,6 +28,7 @@ int extArguments(int, char **);   // Deals with command preprocessors
 void getUserID(char *, int ); // gets userID from user
 void dealWithIt();
 void dispMenu(void);
+void encryptSend(int , void *, size_t , int );
 
 /* Ncurses Stuff */
 #define WIDTH 30

@@ -148,37 +148,51 @@ int main(int argc, char **argv)
  
     strcpy(buffer, str);
     /*Encryption - Usually one would use a key, but not in this case.*/
-    encrypt(buffer);
-    send(mySocket, buffer, strlen(buffer), 0); 
- 
+ //   encrypt(buffer);
+ //   send(mySocket, buffer, strlen(buffer), 0); 
+    encryptSend(mySocket, buffer, strlen(buffer),0);
     if (strcmp(str, "/q") == 0) {
       /* Soft-quiting */
       break;
     } else if (strcmp(str, "a") == 0) {
       /* Add Song */
       printf("You are about to send a song over: Please enter the following: \n"
-             ANSI_COLOR_YELLOW "Name : " );
-      fgets(tempSong.name, sizeof(tempSong.name), stdin);
+             ANSI_COLOR_YELLOW 
+             "Name  : ");
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+
       printf("Artist: ");
-      fgets(tempSong.artist, sizeof(tempSong.artist), stdin);
-      printf("Album: ");
-      fgets(tempSong.album, sizeof(tempSong.album), stdin);
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+
+      printf("Album : ");
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+    
       printf("Duration (mins) : ");
-      /*
-       * Just to make sure, and be on the safe side
+      /* Just to make sure the user will use integars, if it is not the case
+       * then he/she will be promted again to repeat their input.
        */
       for(;;){
-       short *j = 0;
+       short *illegals = 0;
        fgets(str, sizeof(str), stdin);
        /* Check if str contains any non-ints*/
-       for (int i = 0; i < strlen(str)-1; ++i) {
-         if(!isdigit(str[i])) ++j;
-       }
-       /**/
-       if ( j == 0) {
+       for (int i = 0; i < strlen(str) - 1; ++i) {
+         if(!isdigit(str[i])) ++illegals;
+       } 
+       /* If everything seems to be good, then exit*/
+       if ( illegals == 0) {
          tempSong.duration = atoi(str);
-         /* Free the poor guy*/
-         free(j);
+      //   fgets(str, sizeof(str), stdin);
+         str[strlen(str) - 1] = '\0';
+         encryptSend(mySocket, str, strlen(str),0);
+
+         /* Free illegals ... */
+         free(illegals);
          break;
        }
        printf(ANSI_COLOR_RED 
@@ -188,13 +202,34 @@ int main(int argc, char **argv)
               ANSI_COLOR_YELLOW
               "Duration (mins) : "
              );
-      }
-      printf(ANSI_COLOR_GREEN "We are all good. Converting your song to send over\n");
-      printf(ANSI_COLOR_RESET);
+      } // end sentinital loop ( I don't know how to spell, don't judge sheesh )
+      
+      printf(ANSI_COLOR_GREEN 
+             "We are all good. Converting your song to send over\n"
+             ANSI_COLOR_RESET
+            );
     } else if (strcmp(str, "b") == 0) {
       /* Delete Song */
+      printf(ANSI_COLOR_YELLOW);
+      printf("Which song do you want to delete?\n"
+             "Name ? : ");
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+
+      printf("Artist : ");
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+
+      printf("That should be enough info\n");
+      printf(ANSI_COLOR_RESET);      
     } else if (strcmp(str, "c") == 0) {
       /* View Song(s) */
+      fgets(str, sizeof(str), stdin);
+      str[strlen(str) - 1] = '\0';
+      encryptSend(mySocket, str, strlen(str),0);
+      
     } else if (strcmp(str, "d") == 0) {
       break;
     }
