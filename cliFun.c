@@ -14,6 +14,15 @@
 #include "headers.h"
 #include "ncurses.h"
 
+/*----------------------------------------------------------------------------*/
+void dispMenu(void){
+  printf("Choose from the follwing options: \n"
+         "a. Add Song\n"
+         "b. Delete a Song\n"
+         "c. View Song(s)\n"
+         "d. Exit\n"
+        );
+}
 
 /*----------------------------------------------------------------------------*/
 void getUserID (char *userid, int size) {
@@ -36,15 +45,7 @@ int extArguments (int argc, char **argv) {
 
   /* If there are any arguments, check what they are */
   if (argc > 1) {
-    if (strcmp(argv[1], "--ncurses") == 0) {
-     printf(ANSI_ITALIC
-            "You have chosen to use the ncurses interface.\n"
-            ANSI_COLOR_RESET );
-     /* TEMOPRARY  */
-     ncurses(3,20,20,100);
-     return 0;
-
-    } else if(strcmp(argv[1], "--help") == 0) {
+    if (strcmp(argv[1], "--help") == 0) {
       /* Help Page */
        printf(ANSI_UNDER ANSI_BOLD
               "MOEUSIC"
@@ -131,18 +132,7 @@ void initClientSocket()
  *  Ok this comment is way too long and I am having a conversation with you 
  *  (marker).... soo .. Hi bye
  */
-void ncurses(int count,  ...) {
-    va_list args;
-    int i;
-    int sum = 0;
-
-    va_start(args, count);
-    for(i = 0; i < count; i++)
-        sum += va_arg(args, int);
-    //  printf("%s",va_arg(args, char));
-    va_end(args);
-    initscr();
-    start_color();
+void initNcursesMenu(int num_content, char *content) {
     /* THE FOLLOWING IS AN ACTION PLAN
      * TODO: The general design would include:
      *   - A menu which includes SEND / GET SONGS that ask the server to send or
@@ -153,13 +143,58 @@ void ncurses(int count,  ...) {
      *   - Client ID aka username in the top corner along with IP and Port.
      *   - Others to include later.
      */
+  
+    /* First we need the number of choices from content */
+    // int num_content = sizeof(&content) / sizeof(char *);
+    int startx , starty;
+
+    int x, y;
     
-    printw("Ncurses interface");   
-    printw( "\n""This is fantastic\n");
-    attrset(COLOR_PAIR(2 % 2));
-    getch();
+    /* We need to make a window */
+    WINDOW *menu_win;
+
+    int highlight = 1;
+    int choice = 0;
+    int c;
+
+    initscr();
+    raw();
+    start_color();
+    noecho();
+    cbreak();
+    startx = (80 - WIDTH) / 2;
+    starty = (24 - HEIGHT) / 2;
+    menu_win = newwin(HEIGHT, WIDTH, starty, startx);
+    keypad(menu_win, TRUE);
+    mvprintw(0,0,"COMP2401 - MOEUSIC\n Use the up/down arrow keys to navigate\n");  
+    refresh();
+    
+    /* Printing Menu */
+    x = 2;
+    y = 2;
+    box(menu_win, 0, 0);
+    for (int i = 0; i < num_content; ++i) {
+       if (highlight == i + 1) {
+          wattron(menu_win, A_REVERSE);
+          mvwprintw(menu_win, y, x, "%s", &content[i]);
+          wattron(menu_win, A_REVERSE);
+       } else {
+          mvwprintw(menu_win, y, x, "%s", &content[i]);
+       }
+       ++y;
+    }
+    wrefresh(menu_win);
+/*
+    printw("Choose from the follwing options: \n"
+           "a. Add Song\n"
+           "b. Delete a Song\n"
+           "c. View Song(s)\n"
+           "d. Exit\n"
+          );
+*/
+    clrtoeol();
+    refresh();
     endwin();
-    printf("%d\n", sum);
 }
 /*----------------------------------------------------------------------------*/
 

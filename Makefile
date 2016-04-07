@@ -1,7 +1,7 @@
 EXECS= server client 
 LIBS= -lncurses
-FUNC_H= encryption.h logo.h
-FUNC=  encryption.c logo.c
+FUNC_H= encryption.h logo.h sharedFun.h
+FUNC=  encryption.c logo.c sharedFun.c
 
 all:	$(EXECS)
 

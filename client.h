@@ -21,15 +21,18 @@
 #define SERVER_IP_n "SOME_NAT_IP!!!!"
 #define SERVER_PORT 60003
 
-
 /* Function ProtoTypes */
-
 int mySocket;
 void initClientSocket();
-void ncurses(int, ...);                  // ncurses interface
 int extArguments(int, char **);   // Deals with command preprocessors
 void getUserID(char *, int ); // gets userID from user
 void dealWithIt();
+void dispMenu(void);
+
+/* Ncurses Stuff */
+#define WIDTH 30
+#define HEIGHT 10
+void initNcursesMenu(int, char*);
 
 ///* enumeration types */
 //typedef enum err {

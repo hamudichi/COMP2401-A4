@@ -3,9 +3,13 @@
 
 #include "headers.h" 
 
-void printLogo(char *userAgent) {
-  printf(ANSI_CLEAR
-         ANSI_COLOR_RED
+
+
+void printLogo(char *userAgent, Clear soWhat) {
+  if (soWhat == CLEAR)
+    printf(ANSI_CLEAR);
+
+  printf(ANSI_COLOR_RED
          ANSI_COLOR_RED  "▄    ▄  ▄▄▄▄  ▄▄▄▄▄▄ ▄    ▄"
          ANSI_COLOR_BLUE "  ▄▄▄▄  ▄▄▄▄▄    ▄▄▄ \n"
          ANSI_COLOR_RED  "██  ██ ▄▀  ▀▄ █      █    █"

@@ -110,8 +110,8 @@ int main(int argc, char **argv)
      }
   }
 
-  dealWithIt();
-  printLogo("SERVER");
+  //  dealWithIt();
+  printLogo("SERVER", CLEAR);
 
   /* Initiat Socket Connection */
   initServerSocket();
@@ -133,7 +133,7 @@ int main(int argc, char **argv)
     while (1) {
       recvText(buffer);
       decrypt(buffer);
-      if(strcmp(buffer,"/q") == 0) {
+      if(strcmp(buffer,"d") == 0) {
           printf(ANSI_COLOR_RED 
                  "User " 
                  ANSI_COLOR_RESET ANSI_GREY_BCK 
@@ -145,27 +145,19 @@ int main(int argc, char **argv)
 	  giveMeTime();
           printf(ANSI_COLOR_RESET "\n");
           break;
-
-      } else if(strcmp(buffer, "/h") == 0) {
-          printf(ANSI_COLOR_BLUE
-                 "User "
-                 ANSI_COLOR_RESET ANSI_GREY_BCK 
-                 "%s" 
-                 ANSI_COLOR_RESET ANSI_COLOR_RED 
-                 " has requested help page.\n" 
-                 ANSI_COLOR_RESET, userID);
- 
-      } else if (strcmp(buffer, "/s") == 0) {
+     } else if (strcmp(buffer, "a") == 0) {
           /* The user has requested to send a song to the server */
           printf(ANSI_COLOR_YELLOW ANSI_ITALIC 
                  "User '%s' is sending a song over.\n"
                  ANSI_COLOR_RESET, userID);
-          printf(ANSI_COLOR_GREY ANSI_ITALIC ANSI_COLOR_CYAN
+          printf(ANSI_ITALIC ANSI_COLOR_CYAN
                  "Receiving the next buffer from client,"
                  " it should be the song information.\n"
                  ANSI_COLOR_RESET);
-         
-
+      } else if (strcmp(buffer, "b") == 0) {
+         /* Delete Song */
+      } else if (strcmp(buffer, "c") == 0) {
+         /* Send Songs */
       } else {
           /* Print the user input, including his username */ 
           printf(ANSI_COLOR_GREY 

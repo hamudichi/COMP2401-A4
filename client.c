@@ -81,11 +81,18 @@ int main(int argc, char **argv)
   char str[MAX_STR];
   char userID[MAX_USER_NAME];
   char buffer[MAX_BUFF];
-  const char s[3] = "/me";
-  char *token;
-
-  dealWithIt();
-  printLogo("CLIENT");
+  SongType tempSong;
+  
+  /* Ncurses Menu */
+  char *mContent[] = {
+                      "Add Song", 
+                      "Delete Song", 
+                      "View Song(s)",
+                      "Quit"
+                     };
+  
+//  dealWithIt();
+  printLogo("CLIENT", CLEAR);
   
   /* External Preprocessor commands */
   if (extArguments (argc,argv) == 0) {return 0;}
@@ -110,47 +117,89 @@ int main(int argc, char **argv)
   strcpy(buffer, userID);
   send(mySocket, buffer, strlen(buffer), 0);
 
-  /* get input from user and send to server */
+  /* Display Menu - Keep this if not using dup / dup2*/
+  dispMenu();
+
   while (1) {
-    printf("Please enter message: ");
+    /* For eye candy */
+    // printLogo("CLIENT", NO_CLEAR);
+
+    /* Display Menu first */
+    // dispMenu();
+    // initNcursesMenu((sizeof(mContent) / sizeof(char*)),*mContent);
+    printf("Please choose from the menu above: ");
+
     fgets(str, sizeof(str), stdin);
     str[strlen(str)-1] = '\0';
-    encrypt(str);
+    /* Deprecated 
+     * if (strcmp(str, "/h") == 0) {
+     *  printf(ANSI_COLOR_CYAN
+     *       "Welcome to the help page. This is a beta-help page\n"
+     *       "With later releases the help page should be using\n"
+     *       "the ncurses library.\n"
+     *       "Commands include :\n"
+     *       ANSI_COLOR_RED
+     *       "\t/h\t: For this lovely page\n"
+     *       "\t/q\t: Closes this program.\n"
+     *       ANSI_COLOR_RESET
+     *      );
+     * } else
+     */
+ 
     strcpy(buffer, str);
-    send(mySocket, buffer, strlen(buffer), 0);
-    
-    if (strcmp(str, "/h") == 0) {
-      printf(ANSI_COLOR_CYAN
-             "Welcome to the help page. This is a beta-help page\n"
-             "With later releases the help page should be using\n"
-             "the ncurses library.\n"
-             "Commands include :\n"
-             ANSI_COLOR_RED
-             "\t/h\t: For this lovely page\n"
-             "\t/s\t: Send song to server"
-             "\t/q\t: Closes this program.\n"
-             ANSI_COLOR_RESET
-            );
-    } else if (strcmp(str, "/s") == 0 ) {
-      printf("So you want to send a song to server ... eh?\n");
-    } else if (strcmp(str, "/e") == 0 ) {
-      printf("GREAT!! finally someone cares about proper encrytion\n");
-      fgets(str, sizeof(str), stdin);
-      printf("Your original message %s ", str);
-      encrypt(str); 
-      printf(", your encrypted message %s\n", str);
-    } else if (strcmp(str, "/clear") == 0){
-      /* clear the screen so that only MOEUSIC logo is shown */ 
-    } else if (strcmp(token, "/me") == 0) {
-      // do something funny
-    } else if (strcmp(str, "/q") == 0) {
+    /*Encryption - Usually one would use a key, but not in this case.*/
+    encrypt(buffer);
+    send(mySocket, buffer, strlen(buffer), 0); 
+ 
+    if (strcmp(str, "/q") == 0) {
       /* Soft-quiting */
       break;
+    } else if (strcmp(str, "a") == 0) {
+      /* Add Song */
+      printf("You are about to send a song over: Please enter the following: \n"
+             ANSI_COLOR_YELLOW "Name : " );
+      fgets(tempSong.name, sizeof(tempSong.name), stdin);
+      printf("Artist: ");
+      fgets(tempSong.artist, sizeof(tempSong.artist), stdin);
+      printf("Album: ");
+      fgets(tempSong.album, sizeof(tempSong.album), stdin);
+      printf("Duration (mins) : ");
+      /*
+       * Just to make sure, and be on the safe side
+       */
+      for(;;){
+       short *j = 0;
+       fgets(str, sizeof(str), stdin);
+       /* Check if str contains any non-ints*/
+       for (int i = 0; i < strlen(str)-1; ++i) {
+         if(!isdigit(str[i])) ++j;
+       }
+       /**/
+       if ( j == 0) {
+         tempSong.duration = atoi(str);
+         /* Free the poor guy*/
+         free(j);
+         break;
+       }
+       printf(ANSI_COLOR_RED 
+              "EYYY!!! YO CHILL MAN!!"
+              ANSI_COLOR_RESET 
+              " Only Integar values!\nLet's try that again...\n"
+              ANSI_COLOR_YELLOW
+              "Duration (mins) : "
+             );
+      }
+      printf(ANSI_COLOR_GREEN "We are all good. Converting your song to send over\n");
+      printf(ANSI_COLOR_RESET);
+    } else if (strcmp(str, "b") == 0) {
+      /* Delete Song */
+    } else if (strcmp(str, "c") == 0) {
+      /* View Song(s) */
+    } else if (strcmp(str, "d") == 0) {
+      break;
     }
-  }
-
+ }
   close(mySocket);
-
   return 0;
 }
 

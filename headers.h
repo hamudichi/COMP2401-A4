@@ -7,6 +7,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <time.h>
+#include <ctype.h>
 
 /* Check man pages for inet and close */
 #include <unistd.h>    // Added for close() "implicit declaration"
@@ -22,3 +23,4 @@
 #include "client.h"
 #include "encryption.h"
 #include "logo.h"
+#include "sharedFun.h"

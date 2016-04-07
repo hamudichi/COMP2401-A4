@@ -1,7 +1,11 @@
 #ifndef LOGO_H
 #define LOGO_H
 
-void printLogo(char *userAgent);
+/* for printLogo parameters */
+typedef enum { CLEAR, NO_CLEAR } Clear;
+
+
+void printLogo(char *userAgent, Clear );
 void dealWithIt();
 
 #endif 
