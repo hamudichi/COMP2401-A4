@@ -143,8 +143,18 @@ void ncurses(int count,  ...) {
     va_end(args);
     initscr();
     start_color();
-    printw("Ncurses interface");
+    /* THE FOLLOWING IS AN ACTION PLAN
+     * TODO: The general design would include:
+     *   - A menu which includes SEND / GET SONGS that ask the server to send or
+     *     receive songs.
+     *   - The menu has to have color.
+     *   - The menu should also include the other commands such as (but not 
+     *     limited to) a help option (optional since it is a menu ... lol),
+     *   - Client ID aka username in the top corner along with IP and Port.
+     *   - Others to include later.
+     */
     
+    printw("Ncurses interface");   
     printw( "\n""This is fantastic\n");
     attrset(COLOR_PAIR(2 % 2));
     getch();

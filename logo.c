@@ -28,7 +28,7 @@ void printLogo(char *userAgent) {
 /*----------------------------------------------------------------------------*/
 void dealWithIt() {
   printf( ANSI_CLEAR
-   "\n" ANSI_COLOR_BLUE
+   ANSI_COLOR_BLUE
    " █▀                        ▀▄     looks around      \n"
    "▄▀                          ▀▄    see's you looking \n"
    "█     ███           ███      █                      \n"
@@ -39,13 +39,13 @@ void dealWithIt() {
   sleep(1);
   printf( ANSI_CLEAR
    ANSI_COLOR_YELLOW
-   " █▀                             ▀▄                                       \n"
-   "▄▀                               ▀▄   ▄            ███████       ███████ \n"
-   "█            ███         ███      █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ \n"
-   "█            ▀▀▀         ▀▀▀      █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ \n"
-   " █                               █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ \n"
-   "  ▀                             ▀      puts on glasses...like a boss     \n"
-   "                  ▀▀▀▀▀▀                            \n");
+   "   █▀                      ▀▄                                       \n"
+   "  ▄▀                        ▀▄   ▄            ███████       ███████ \n"
+   "  █       ███         ███    █    ▀▀▀▄▄ ▄▄▄▄▄▄███████       ███████ \n"
+   "  █       ▀▀▀         ▀▀▀    █    ▄▄▄▀▀ ▀     ███████  ▀▀▀  ███████ \n"
+   "   █                        █    ▀            ▀▀▀▀▀▀▀       ▀▀▀▀▀▀▀ \n"
+   "    ▀                      ▀      puts on glasses...like a boss     \n"
+   "            ▀▀▀▀▀▀                            \n");
   sleep(1);
   printf( ANSI_CLEAR
    ANSI_COLOR_RED

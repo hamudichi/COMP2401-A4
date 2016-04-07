@@ -134,6 +134,9 @@ void recvText(char *text)
 }
 
 /*----------------------------------------------------------------------------*/
+/* Just to make our lifes easier and allow us to compare the whole structure 
+** at once.
+**/
 int compareSongs (SongType a, SongType b) {
    if (a.name == b.name && a.artist == b.artist && a.album == b.album &&
        a.duration == b.duration) 
@@ -141,6 +144,7 @@ int compareSongs (SongType a, SongType b) {
    else 
        return 1;
 }
+/*----------------------------------------------------------------------------*/
 
 /* Singly Linked List Functions */
 
@@ -156,6 +160,7 @@ void insertSong(Node *song, SongType info) {
     song -> data = info;       // Insert new song information, sent by client
     song -> next = NULL;       // Set the next pointer to NUll for the new node
 }
+/*----------------------------------------------------------------------------*/
 
 void removeSong(Node *song, SongType info) {
     /* Iterate through the list*/
@@ -189,6 +194,7 @@ void removeSong(Node *song, SongType info) {
 
     free(tempNode);
 }
+/*----------------------------------------------------------------------------*/
 
 void showMeSong(Node *song) {
     /* 
@@ -207,8 +213,7 @@ void showMeSong(Node *song) {
            ,song -> data.album, song -> data.duration);
 
 }
-
-
+/*----------------------------------------------------------------------------*/
 /* the use of an int function is to simulate a bool*/
 int findSong(Node *song, SongType info){
    /* Finding the song using SongType */
